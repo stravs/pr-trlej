@@ -1,0 +1,19 @@
+---
+import Photo from './Photo.astro';
+interface Props {
+  title: string;
+  eyebrow: string;
+  photos: { src: string; alt: string; caption: string }[];
+}
+const { title, eyebrow, photos } = Astro.props;
+---
+<section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+  <p class="eyebrow text-clay">{eyebrow}</p>
+  <h2 class="font-display mt-3 text-4xl font-normal tracking-tight">{title}</h2>
+  <div class:list={['mt-8 grid gap-6', photos.length === 2 ? 'md:grid-cols-[1.3fr_1fr]' : 'md:grid-cols-3']}>
+    {photos.map(photo => <figure>
+      <Photo src={`/images/${photo.src}`} alt={photo.alt} class="aspect-[4/3] w-full object-cover" sizes={photos.length === 2 ? '(min-width: 768px) 650px, 100vw' : '(min-width: 768px) 400px, 100vw'} />
+      <figcaption class="mt-3 text-xs leading-7 text-muted">{photo.caption}</figcaption>
+    </figure>)}
+  </div>
+</section>

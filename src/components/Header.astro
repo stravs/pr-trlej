@@ -1,0 +1,51 @@
+---
+const nav = [
+ {label:'Stay with us', links:[{href:'/traditional-house/',label:'Traditional house · Private bathrooms'},{href:'/tourist-farm/',label:'Tourist farm · Shared bathrooms'},{href:'/camping/',label:'Camp Starshine · Pitches'}]},
+ {label:'Life on the farm', links:[{href:'/farm/',label:'Farm, food & animals'},{href:'/guest-guide/',label:'Your stay here'}]},
+ {label:'Around here', links:[{href:'/activities/',label:'Outdoors & exploring'},{href:'/motorcycles/',label:'For motorcycle riders'},{href:'/location/',label:'Location & arrival'}]},
+];
+---
+  <div class="hidden sm:block bg-white border-b border-[#326344]/15 px-4 py-2 text-center text-[14px] font-semibold uppercase tracking-[0.08em] sm:text-xs">A family farm under Dobrča &nbsp; · &nbsp; Begunje, Slovenia</div>
+  <header class="relative z-20 bg-white">
+    <div class="mx-auto flex max-w-[1320px] items-center justify-between gap-6 px-5 py-5 sm:px-10 lg:px-14">
+    <a href="/" aria-label="Pr’ Trlej home" class="text-[#43382e]"><span class="font-display block text-3xl font-bold tracking-tight sm:text-4xl">Pr’ Trlej</span><span class="mt-1 block text-[14px] uppercase tracking-[0.04em]">A Slovenian family welcome</span></a>
+    <nav aria-label="Main" class="hidden items-center gap-7 text-sm xl:flex">
+      {nav.map(item => <details data-dropdown class="group relative">
+        <summary class="flex cursor-pointer list-none items-center gap-2 py-4 hover:text-[#326344] [&::-webkit-details-marker]:hidden">{item.label}<span aria-hidden="true" class="text-xs transition-transform group-open:rotate-180">⌄</span></summary>
+        <div class="absolute left-1/2 top-full w-80 -translate-x-1/2 border border-[#d9ccba] bg-white p-3 shadow-xl">{item.links.map(link => <a href={link.href} class="block px-4 py-4 leading-7 hover:bg-sand focus-visible:bg-sand">{link.label}</a>)}</div>
+      </details>)}
+      <a href="/contact/" class="py-4 hover:underline">Contact</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <a href="/accommodation/" class="hidden bg-[#326344] px-5 py-3 text-sm font-semibold text-[#fff9ef] hover:bg-[#244c33] sm:block">Find your stay ↗</a>
+      <details data-mobile-menu class="relative xl:hidden"><summary class="cursor-pointer py-3 text-sm font-semibold">Menu</summary>
+        <nav aria-label="Mobile" class="absolute right-0 top-full max-h-[75dvh] w-[min(21rem,calc(100vw-2.5rem))] overflow-y-auto border border-[#d9ccba] bg-white p-4 shadow-xl">
+          {nav.map(item => <details data-dropdown class="border-b border-[#d9ccba]"><summary class="cursor-pointer py-4 text-sm font-semibold">{item.label}</summary><div class="pb-3">{item.links.map(link => <a class="block px-3 py-3 text-sm leading-7 hover:bg-sand" href={link.href}>{link.label}</a>)}</div></details>)}
+          <a class="block py-4 text-sm" href="/contact/">Contact the family ↗</a>
+          <a class="mt-2 block bg-[#326344] p-3 text-center text-sm text-[#fff9ef] sm:hidden" href="/accommodation/">Find your stay ↗</a>
+        </nav>
+      </details>
+    </div>
+    </div>
+  </header>
+
+<script>
+const header = document.querySelector('header');
+const menus = Array.from(document.querySelectorAll<HTMLDetailsElement>('[data-dropdown]'));
+const mobile = document.querySelector<HTMLDetailsElement>('[data-mobile-menu]');
+const closeMenus = () => { menus.forEach(menu => menu.open = false); if (mobile) mobile.open = false; };
+menus.forEach(menu => menu.addEventListener('toggle', () => {
+  if (menu.open) menus.forEach(other => { if (other !== menu) other.open = false; });
+}));
+document.addEventListener('click', event => {
+  if (!(event.target instanceof Element)) return;
+  if (!header?.contains(event.target) || event.target.closest('a')) closeMenus();
+});
+document.addEventListener('keydown', event => {
+  if (event.key !== 'Escape') return;
+  const open = menus.find(menu => menu.open) ?? (mobile?.open ? mobile : undefined);
+  open?.querySelector('summary')?.focus();
+  closeMenus();
+});
+matchMedia('(min-width: 1280px)').addEventListener('change', closeMenus);
+</script>

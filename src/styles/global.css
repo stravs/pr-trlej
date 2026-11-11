@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream: #f7f1e5;
+  --color-sand: #f6f5f2;
+  --color-moss: #326344;
+  --color-moss-dark: #244c33;
+  --color-clay: #b4222a;
+  --color-clay-dark: #8d1820;
+  --color-ink: #43382e;
+  --color-muted: #655544;
+  --color-line: #d9ccba;
+  --text-xs: 1rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 1.0625rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1.125rem;
+  --text-base--line-height: 1.7;
+  --font-display: "Georgia", "Times New Roman", ui-serif, serif;
+  --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background-color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+/* Reusable eyebrow label */
+.eyebrow {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}

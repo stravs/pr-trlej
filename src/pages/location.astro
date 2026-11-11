@@ -1,0 +1,52 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import { site, distances } from '../data/site';
+---
+
+<BaseLayout title="Location & getting here" description="How to reach Pr' Trlej in Begunje na Gorenjskem, with distances to Bled, Ljubljana and the airport.">
+  <PageHero eyebrow="Location" title="On the sunny side of the Alps" lead="Srednja vas 6, Begunje na Gorenjskem — between Begunje and Tržič, surrounded by forest and meadow." image="guesthouse-garden.jpg" alt="The guesthouse and garden beside the road" />
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        <h2 class="font-display text-4xl font-normal tracking-tight text-ink">The address</h2>
+        <p class="mt-4 text-lg text-ink/85">
+          {site.name}<br />
+          {site.address}<br />
+          {site.city}, {site.country}
+        </p>
+        <p class="mt-2 text-sm text-muted">Coordinates: {site.coordinates.lat}, {site.coordinates.lng}</p>
+        <a
+          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.name}, ${site.address}, ${site.city}, ${site.country}`)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-6 inline-block rounded-none bg-moss px-6 py-3 font-semibold text-cream transition-colors hover:bg-moss-dark"
+        >
+          Open in Google Maps ↗
+        </a>
+      </div>
+      <div class="overflow-hidden rounded-none border border-line">
+        <Photo src="/images/guesthouse-summer.jpg" alt="The guesthouse and terrace" class="aspect-[3/2] w-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-sand py-16">
+    <div class="mx-auto max-w-[1320px] px-5 sm:px-10 lg:px-14">
+      <h2 class="font-display text-4xl font-normal tracking-tight text-ink">Distances</h2>
+      <dl class="mt-8 grid gap-px overflow-hidden rounded-none border border-line sm:grid-cols-2 lg:grid-cols-3">
+        {distances.map((row) => (
+          <div class="bg-white px-5 py-4">
+            <dt class="text-sm text-ink">{row.place}</dt>
+            <dd class="mt-1 font-display text-2xl font-normal tracking-tight text-moss">{row.km}</dd>
+          </div>
+        ))}
+      </dl>
+      <p class="mt-6 max-w-2xl text-sm text-ink/85">
+        A local bus stop is near the house, but service is limited — a car is the practical way to get around. Ask us about parking and the best arrival route.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import { motorcycleFeatures } from '../data/site';
+---
+
+<BaseLayout title="Motorcycle stays" description="Free covered motorcycle garage, washing, tools and route advice at Pr' Trlej.">
+  <PageHero eyebrow="Motorcycles" title="Built for riders" lead="A family guesthouse in the Karawanks, run by a rider — with a free garage, washing, tools and Toni's route advice." image="spela.jpg" alt="Guests and motorcycles outside the guesthouse" />
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        <h2 class="font-display text-4xl font-normal tracking-tight text-ink">Everything for the bike</h2>
+        <p class="mt-4 text-ink/90">
+          Motorcyclists are regular guests here. The farm sits on the sunny side of the Alps, an ideal base for day loops through Slovenia, Austria and Italy — Bled is 8 km away, the Adriatic about 150 km.
+        </p>
+        <ul class="mt-6 space-y-3">
+          {motorcycleFeatures.map((feature) => (
+            <li class="flex gap-3 rounded-none bg-sand px-5 py-3 text-ink">
+              <span class="text-clay" aria-hidden="true">✓</span>
+              <span>{feature}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div class="space-y-3">
+        <Photo src="/images/spela.jpg" alt="Guests with motorcycles outside the guesthouse" class="aspect-[3/2] w-full rounded-none object-cover" loading="lazy" />
+        <Photo src="/images/1-1.jpg" alt="The farmhouse" class="aspect-[3/2] w-full rounded-none object-cover" loading="lazy" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sand py-16">
+    <div class="mx-auto max-w-[1320px] px-5 sm:px-10 lg:px-14">
+      <h2 class="font-display text-4xl font-normal tracking-tight text-ink">Three countries in a day</h2>
+      <p class="mt-4 max-w-2xl text-ink/90">
+        Toni rides himself and plans routes with you — including the "Three Countries Tour", a single day through Slovenia, Austria and Italy. Biker brochures and tour maps are available, and a van is on hand for rain or breakdowns.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

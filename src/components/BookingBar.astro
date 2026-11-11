@@ -1,0 +1,93 @@
+---
+import { campingPitches, type Building } from '../data/site';
+import { stays } from '../data/stays';
+interface Props {
+  action?: string;
+  building?: Building;
+  selectProperty?: boolean;
+  selectPitch?: boolean;
+  arrival?: string | null;
+  departure?: string | null;
+  adults?: string;
+  unit?: string;
+  pitch?: string;
+}
+const { action = '/accommodation/#booking', building, selectProperty = false, selectPitch = false, arrival: arrivalValue, departure: departureValue, adults = '2', unit, pitch } = Astro.props;
+const hasSelector = selectProperty || selectPitch;
+---
+<div id="booking-bar" class="rounded-none border border-cream/15 bg-moss p-5  sm:p-6">
+  <form action={action} method="get" id="booking-form" class:list={['grid grid-cols-2 gap-4', hasSelector ? 'sm:grid-cols-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.6fr)_auto] xl:items-end' : 'lg:grid-cols-[1fr_1fr_0.65fr_auto] lg:items-end']}>
+    {selectProperty ? <label class="col-span-2 min-w-0 sm:col-span-4 xl:col-span-1">
+      <span id="property-label" class="mb-2 block text-xs font-semibold text-cream">Property</span>
+      <select id="property" name="building" aria-labelledby="property-label" class="min-h-12 w-full min-w-0 rounded-sm border border-cream/20 bg-white px-3 py-2.5 text-ink">
+        <option value="" selected={!building}>All properties</option>
+        {stays.map(stay => <option value={stay.building} selected={stay.building === building}>{stay.name}</option>)}
+      </select>
+    </label> : <input type="hidden" name="building" value={building} />}
+    {selectPitch && <label class="col-span-2 min-w-0 sm:col-span-4 xl:col-span-1">
+      <span id="pitch-label" class="mb-2 block text-xs font-semibold text-cream">Pitch type</span>
+      <select name="pitch" aria-labelledby="pitch-label" class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink">
+        <option value="" selected={!pitch}>Any pitch</option>
+        {campingPitches.map(option => <option value={option.slug} selected={option.slug === pitch}>{option.name}</option>)}
+      </select>
+    </label>}
+    {unit && <input type="hidden" name="unit" value={unit} />}
+    {pitch && !selectPitch && <input type="hidden" name="pitch" value={pitch} />}
+    <label class:list={["min-w-0", hasSelector && "col-span-2 xl:col-span-1"]}>
+      <span class="mb-2 block text-xs font-semibold text-cream">Check-in</span>
+      <input id="arrival" type="date" name="arrival" value={arrivalValue ?? undefined} class="min-h-12 w-full min-w-0 rounded-none border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
+    </label>
+    <label class:list={["min-w-0", hasSelector && "col-span-2 xl:col-span-1"]}>
+      <span class="mb-2 block text-xs font-semibold text-cream">Check-out</span>
+      <input id="departure" type="date" name="departure" value={departureValue ?? undefined} class="min-h-12 w-full min-w-0 rounded-none border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
+    </label>
+    <label>
+      <span class="mb-2 block text-xs font-semibold text-cream">Adults</span>
+      <select name="adults" class="min-h-12 w-full rounded-none bg-white px-3 py-2.5 text-ink">
+        {Array.from({ length: 7 }, (_, i) => i + 1).map((n) => <option value={n} selected={String(n) === adults}>{n}</option>)}
+      </select>
+    </label>
+    <button type="submit" class:list={['col-span-2 min-h-12 rounded-none bg-white px-6 py-3 font-semibold text-moss transition-colors hover:bg-sand', hasSelector ? 'xl:col-span-1' : 'lg:col-span-1']}>Check dates →</button>
+  </form>
+  <p class="mt-4 text-xs leading-relaxed text-cream/95">Final availability and prices are confirmed in the booking form. Children and their ages are entered there. Groups of 8+ — <a href="/contact/" class="underline underline-offset-4">contact us</a>.</p>
+  <noscript><p class="mt-2 text-xs text-cream">Choose a check-out date after check-in. Dates are confirmed in the booking system.</p></noscript>
+</div>
+
+<script>
+  const arrival = document.getElementById('arrival') as HTMLInputElement;
+  const departure = document.getElementById('departure') as HTMLInputElement;
+  function iso(date: Date) {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  }
+  arrival.min = iso(new Date());
+  function updateDates() {
+    const next = new Date(`${arrival.value || arrival.min}T00:00:00`);
+    next.setDate(next.getDate() + 1);
+    departure.min = iso(next);
+    if (arrival.value && (!departure.value || departure.value <= arrival.value)) departure.value = departure.min;
+    departure.setCustomValidity(departure.value && departure.value <= arrival.value ? 'Check-out must be after check-in.' : '');
+  }
+  arrival.addEventListener('change', updateDates);
+  departure.addEventListener('change', updateDates);
+  updateDates();
+
+  // Keep room/pitch links in step with the dates and guests entered above them.
+  const form = document.getElementById('booking-form') as HTMLFormElement;
+  const stayLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-stay-link]')).map(link => ({ link, original: link.href }));
+  function updateStayLinks() {
+    const values = new FormData(form);
+    for (const { link, original } of stayLinks) {
+      const target = new URL(original);
+      for (const key of ['arrival', 'departure', 'adults', 'children']) {
+        const value = String(values.get(key) ?? '');
+        if (value) target.searchParams.set(key, value);
+        else target.searchParams.delete(key);
+      }
+      link.href = target.pathname + target.search + target.hash;
+    }
+  }
+  form.addEventListener('input', updateStayLinks);
+  form.addEventListener('change', updateStayLinks);
+  window.addEventListener('pageshow', updateStayLinks);
+  updateStayLinks();
+</script>

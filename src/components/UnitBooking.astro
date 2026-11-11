@@ -1,0 +1,41 @@
+---
+import BookingBar from './BookingBar.astro';
+import { bentralBookingUrl, type Building } from '../data/site';
+import { validSearch } from '../lib/availability';
+import type { UnitStay } from '../lib/unit-stay';
+import LivePrice from './LivePrice.astro';
+interface Props { building: Building; unitId: string; name: string; stay: UnitStay }
+const { building, unitId, name, stay } = Astro.props;
+const { arrival, departure, adults, children, search, searched, available, failed, quote } = stay;
+const bookingUrl = bentralBookingUrl(building) + `&unit=${encodeURIComponent(unitId)}#` + new URLSearchParams({ arrival: search.arrival, departure: search.departure, persons: adults });
+---
+<section id="booking" class="mx-auto max-w-[1320px] scroll-mt-6 px-5 py-12 sm:px-10 lg:px-14">
+  <h2 class="font-display mb-6 text-3xl">Check dates for {name}</h2>
+  <BookingBar building={building} action={`${Astro.url.pathname}#booking`} arrival={arrival} departure={departure} adults={adults} />
+  {searched && !validSearch(search) && <p class="mt-5">Enter valid dates and guest counts. Check-out must be after check-in.</p>}
+  {failed && <p class="mt-5">Availability could not be checked. Please try again or <a href="/contact/" class="text-moss underline">contact us</a>.</p>}
+  {searched && validSearch(search) && !failed && !available && <p class="mt-5">This unit is unavailable for the selected dates and guests. <a href={`/accommodation/?${new URLSearchParams({ arrival: search.arrival, departure: search.departure, adults, children })}#booking`} class="text-moss underline">See available units →</a></p>}
+  {available && <div class="mt-8">
+    <h3 class="font-display text-2xl">Book {name}</h3>
+    <LivePrice quote={quote} />
+    <p class="mt-3 text-sm text-muted">{arrival} → {departure} · {adults} adult(s) · {children} child(ren). Enter children and their ages again in the booking form. Final rates and stay restrictions are confirmed by Bentral.</p>
+    <iframe data-bentral-booking height="1000" scrolling="no" src={bookingUrl} title={`Book ${name}`} class="mt-6 w-full overflow-hidden border border-line" loading="lazy"></iframe>
+    <a href={bookingUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-moss underline underline-offset-4">Open booking form in a new tab ↗</a>
+  </div>}
+</section>
+
+<script>
+  // Bentral publishes its content height as "<32-character frame id>_<pixels>".
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://www.bentral.com' || typeof event.data !== 'string') return;
+    const match = event.data.match(/^[a-f0-9]{32}_(\d+)$/);
+    if (!match) return;
+    const height = Number(match[1]);
+    if (!Number.isSafeInteger(height) || height <= 0 || height > 100000) return;
+    for (const frame of document.querySelectorAll('iframe[data-bentral-booking]')) {
+      if (frame instanceof HTMLIFrameElement && event.source === frame.contentWindow) {
+        frame.style.height = `${height + 32}px`;
+      }
+    }
+  });
+</script>

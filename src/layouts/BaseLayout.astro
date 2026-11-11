@@ -1,0 +1,35 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+const fullTitle = title ? `${title} · Pr' Trlej` : "Pr' Trlej — farm stay under Dobrča, near Bled";
+const meta = description ?? 'Three ways to stay at Pr’ Trlej near Bled: the traditional house, tourist farm rooms and Camp Starshine camping. Meet the family and explore the countryside.';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={meta} />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body class="font-body bg-white text-base leading-relaxed text-ink [&_:is(button,input,select,summary)]:min-h-12 [&_:is(a,button,input,select,summary):focus-visible]:outline-2 [&_:is(a,button,input,select,summary):focus-visible]:outline-offset-4 [&_:is(a,button,input,select,summary):focus-visible]:outline-current motion-reduce:[&_*]:!scroll-auto motion-reduce:[&_*]:!transition-none motion-reduce:[&_*]:!transform-none">
+    <a href="#main" class="fixed left-4 top-4 z-[100] -translate-y-32 rounded-xl bg-white px-5 py-3 font-semibold text-moss focus:translate-y-0">Skip to content</a>
+    <Header />
+    <main id="main" tabindex="-1" class="scroll-mt-24">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

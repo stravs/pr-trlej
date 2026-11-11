@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+import { activities, dobrocaHike } from '../data/site';
+---
+
+<BaseLayout title="Activities & surroundings" description="Hiking, cycling, paragliding, skiing and culture around Pr' Trlej.">
+  <PageHero eyebrow="Activities" title="From the farm to the mountains" lead="The Dobrča hike starts at the door. Bled, the Sava and the Julian Alps are a short drive away." image="JFUN2177.jpg" alt="Lake Bled and the surrounding mountains" />
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {activities.map((item) => (
+        <div class="border-t border-line py-7">
+          <h2 class="font-display text-2xl font-normal tracking-tight text-moss">{item.title}</h2>
+          <p class="mt-2 text-sm text-ink/90">{item.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="border-t border-line bg-sand py-16">
+    <div class="mx-auto max-w-[1320px] px-5 sm:px-10 lg:px-14">
+      <div class="grid gap-10 md:grid-cols-2">
+        <div>
+          <p class="eyebrow text-clay">Signature hike</p>
+          <h2 class="font-display mt-3 text-3xl font-normal tracking-tight text-ink">{dobrocaHike.route}</h2>
+          <p class="mt-4 text-ink/90">A demanding but rewarding route that starts right at the farm, climbing through forest to the Dobrča hut with views over the Julian Alps and the Karawanks.</p>
+        </div>
+        <dl class="grid grid-cols-2 gap-px overflow-hidden rounded-none border border-line sm:grid-cols-3">
+          {[
+            ['Length', dobrocaHike.length],
+            ['Climb', dobrocaHike.gain],
+            ['Time', dobrocaHike.time],
+            ['Start', dobrocaHike.start],
+            ['Top', dobrocaHike.top],
+            ['Difficulty', dobrocaHike.difficulty],
+          ].map(([label, value]) => (
+            <div class="bg-white px-5 py-4">
+              <dt class="text-xs uppercase tracking-wide text-muted">{label}</dt>
+              <dd class="mt-1 font-semibold text-ink">{value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+  </section>
+  <PhotoGallery eyebrow="Around the area" title="Lakes, rivers & mountain views" photos={[
+    {src:'area-river-walk.jpg',alt:'A wooden footbridge beside a clear green river',caption:'A walk beside the water.'},
+    {src:'area-lake-bled.jpg',alt:'Lake Bled and its island church seen from the shore',caption:'A day out at Lake Bled.'},
+    {src:'area-mountain-path.jpg',alt:'A countryside path with snow-covered mountains in the distance',caption:'The mountains are never far away.'},
+  ]} />
+</BaseLayout>

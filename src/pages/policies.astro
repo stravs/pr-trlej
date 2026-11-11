@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const policies = [
+  {
+    title: 'Check-in & check-out',
+    body: 'Check-in from 16:00 to 21:00. Check-out from 08:00 to 09:00. Let us know your arrival time in advance.',
+  },
+  {
+    title: 'Children',
+    body: 'Children of all ages are welcome. A crib is available on request (€10 per night). No extra beds.',
+  },
+  {
+    title: 'Pets',
+    body: 'Pets may be allowed on request with an extra charge — this varies by room, so confirm before booking.',
+  },
+  {
+    title: 'Cancellation',
+    body: 'Cancellation and prepayment depend on the rate you choose. Check the conditions when you select your dates.',
+  },
+  {
+    title: 'Payment',
+    body: 'Booking.com collects payment on behalf of the property. Bring cash for extras such as breakfast, the tourist tax or drinks.',
+  },
+  {
+    title: 'House rules',
+    body: 'Non-smoking throughout. Quiet hours 21:00–08:00. No parties or events.',
+  },
+  {
+    title: 'Tourist tax',
+    body: 'Check the applicable adult and child taxes, registration charges and other extras in the booking system for your chosen accommodation.',
+  },
+  {
+    title: 'Wi-Fi',
+    body: 'Free Wi-Fi in all areas. Coverage in the shared-bathroom wing can be weaker than in the main house.',
+  },
+];
+---
+
+<BaseLayout title="Policies & good to know" description="Check-in, children, pets, cancellation and house rules at Pr' Trlej.">
+  <PageHero eyebrow="Good to know" title="Policies & practicalities" lead="The essentials, plainly stated. When in doubt, ask — we'll confirm before you commit." image="traditional-house-details.jpg" alt="Painted wooden furniture and traditional interior details" />
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <p class="mb-8 max-w-2xl text-ink/90">These notes concern house and tourist farm rooms. For pitch rules, facilities and arrival times, see <a href="/camping/" class="font-semibold text-moss underline underline-offset-4">Camp Starshine camping</a> and confirm with the hosts.</p>
+    <div class="grid gap-6 md:grid-cols-2">
+      {policies.map((policy) => (
+        <div class="border-t border-line py-7">
+          <h2 class="font-display text-2xl font-normal tracking-tight text-moss">{policy.title}</h2>
+          <p class="mt-2 text-ink/90">{policy.body}</p>
+        </div>
+      ))}
+    </div>
+    <p class="mt-10 text-sm text-muted">
+      These points are drawn from the published listing and the farm's own site. They are not a contract — confirm anything that matters for your stay when you book.
+    </p>
+  </section>
+</BaseLayout>

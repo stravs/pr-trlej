@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import BookingBar from '../components/BookingBar.astro';
+import { campingPitches } from '../data/site';
+export const prerender = false;
+const params = Astro.url.searchParams;
+const pitch = campingPitches.find(option => option.slug === params.get('pitch'));
+function bookingLink(slug: string) {
+  const query = new URLSearchParams();
+  for (const key of ['arrival', 'departure', 'adults', 'children']) {
+    const value = params.get(key);
+    if (value) query.set(key, value);
+  }
+  return `/camping/${slug}/?${query}#booking`;
+}
+---
+<BaseLayout title="Camp Starshine camping" description="Choose a tent or campervan pitch at Camp Starshine near Bled. Check dates and book through the campsite’s Bentral booking form.">
+  <section class="border-b border-line">
+    <div class="mx-auto max-w-[1320px] px-5 py-8 sm:px-10 lg:px-14 lg:py-10">
+      <div class="flex flex-wrap items-end justify-between gap-4">
+        <div><h1 class="font-display text-4xl tracking-tight sm:text-5xl">Camp Starshine</h1><p class="mt-3 leading-7 text-muted">Tent and campervan pitches under Dobrča, near Bled.</p></div>
+        <a href="/accommodation/" class="py-3 text-sm font-semibold text-moss underline underline-offset-4">All accommodation</a>
+      </div>
+      <div class="mt-6"><BookingBar building="camping" selectPitch pitch={pitch?.slug} arrival={params.get('arrival')} departure={params.get('departure')} adults={params.get('adults') ?? '2'} /></div>
+    </div>
+  </section>
+  <section id="units" class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14">
+    <h2 class="font-display text-3xl tracking-tight">Choose your pitch</h2>
+    <p class="mt-4 max-w-2xl text-muted">Enter your dates above, then choose a pitch. Availability and the final price are confirmed in the camping booking form.</p>
+    <div class="mt-8 grid gap-10 md:grid-cols-2">
+      {campingPitches.map(option => <article data-pitch-slug={option.slug} class="flex flex-col border-b border-line pb-6">
+        <Photo src={option.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={option.slug === 'tent' ? 'Camp Starshine pitches with campervans and rooftop tents in the evening light' : 'Campervan pitches overlooking the wooded valley'} class="aspect-[3/2] w-full object-cover" sizes="(min-width: 768px) 580px, 100vw" />
+        <h3 class="font-display mt-5 text-3xl tracking-tight">{option.name}</h3>
+        <p class="mb-5 mt-3 leading-7 text-muted">{option.slug === 'tent' ? 'A place for your tent, with shared bathroom facilities.' : 'A pitch for a campervan or tent. Confirm vehicle access and pitch facilities with the family.'}</p>
+        <a data-stay-link href={bookingLink(option.slug)} class="mt-auto inline-flex min-h-12 items-center self-start bg-moss px-5 py-3 font-semibold text-white hover:bg-moss-dark">View {option.name.toLowerCase()} →</a>
+      </article>)}
+    </div>
+    <p class="mt-8 max-w-3xl text-sm leading-7 text-muted">Breakfast is available as an option in the camping booking system. Ask the family about electric hookups, drinking water, vehicle services and arrival arrangements before booking.</p>
+    <div class="mt-6 flex flex-wrap gap-x-8 gap-y-3 border-t border-line pt-6 text-sm font-semibold text-moss"><a href="/location/" class="py-2 underline underline-offset-4">Directions & arrival</a><a href="/farm/" class="py-2 underline underline-offset-4">Farm & food</a><a href="/contact/" class="py-2 underline underline-offset-4">Ask the family</a></div>
+  </section>
+</BaseLayout>

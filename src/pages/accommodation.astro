@@ -1,0 +1,98 @@
+---
+import LivePrice from '../components/LivePrice.astro';
+import { loadQuote, type Quote } from '../lib/pricing';
+import { loadCalendar, matchingUnits, validSearch } from '../lib/availability';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import UnitGrid from '../components/UnitGrid.astro';
+import { stays } from '../data/stays';
+import Photo from '../components/Photo.astro';
+import BookingBar from '../components/BookingBar.astro';
+import { buildings, units, campingPitches, bentralBookingUrl, type Building } from '../data/site';
+
+export const prerender = false;
+
+const requested = Astro.url.searchParams.get('building');
+const validBuilding = requested === 'farm' || requested === 'guesthouse' || requested === 'camping';
+const building = validBuilding ? requested as Building : undefined;
+const arrival = Astro.url.searchParams.get('arrival');
+const departure = Astro.url.searchParams.get('departure');
+const adults = Astro.url.searchParams.get('adults') ?? '2';
+const children = Astro.url.searchParams.get('children') ?? '0';
+const search = { arrival: arrival ?? '', departure: departure ?? '', adults: Number(adults), children: Number(children) };
+const searched = arrival !== null || departure !== null;
+const searchValid = validSearch(search);
+const searchBuildings = validBuilding ? [requested as Building] : (Object.keys(buildings) as Building[]);
+const results = searched && searchValid ? await Promise.all(searchBuildings.map(async (property) => {
+  try {
+    const calendar = await loadCalendar(bentralBookingUrl(property));
+    const matches = matchingUnits(calendar, search);
+    const quotes: Record<string, Quote | null> = Object.fromEntries(await Promise.all(matches.map(async unit => [unit.id, await loadQuote(buildings[property], unit.id, search)])));
+    return { property, matches, quotes, failed: false };
+  } catch {
+    return { property, matches: [], quotes: {} as Record<string, Quote | null>, failed: true };
+  }
+})) : [];
+const query = new URLSearchParams({ arrival: arrival ?? '', departure: departure ?? '', adults, children }).toString();
+const matchCount = results.reduce((count, result) => count + result.matches.length, 0);
+---
+<BaseLayout title="Accommodation & booking" description="Choose and book the traditional house, tourist farm rooms or Camp Starshine camping at Pr’ Trlej near Bled.">
+  <section data-accommodation-hero class="border-b border-line bg-white [--booking-half:220px] sm:[--booking-half:190px] xl:[--booking-half:90px]">
+    <div class="relative isolate overflow-hidden bg-moss">
+      <Photo src="/images/guesthouse-summer.jpg" alt="Pr’ Trlej guesthouse with flower-filled wooden balconies and summer greenery" class="absolute inset-0 -z-20 h-full w-full object-cover object-[65%_45%]" sizes="100vw" loading="eager" />
+      <div aria-hidden="true" class="absolute inset-0 -z-10 bg-linear-to-r from-black/75 via-black/45 to-black/10"></div>
+      <div class="mx-auto flex min-h-[340px] max-w-[1320px] items-end px-5 pt-12 pb-[calc(var(--booking-half)+3rem)] sm:min-h-[420px] sm:px-10 sm:pt-16 sm:pb-[calc(var(--booking-half)+4rem)] lg:min-h-[460px] lg:px-14">
+        <div class="max-w-xl text-cream">
+          <p class="text-xs font-semibold uppercase tracking-[0.18em] text-cream/90">Stay with us · Near Bled</p>
+          <h1 class="font-display mt-4 text-5xl leading-[1.06] tracking-tight sm:text-6xl lg:text-7xl">Find your stay.</h1>
+          <p class="mt-5 max-w-md text-base leading-7 text-cream/95 sm:text-lg">A cosy room, space for the family, or a pitch under the stars. Make yourself at home at Pr’ Trlej.</p>
+        </div>
+      </div>
+    </div>
+    <div class="relative z-10 mx-auto -mt-[var(--booking-half)] w-full max-w-[1320px] px-5 pb-8 sm:px-10 lg:px-14">
+      <BookingBar selectProperty building={building} arrival={arrival} departure={departure} adults={adults} />
+    </div>
+  </section>
+  {searched && <section id="booking" class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14" aria-label="Availability results" aria-live="polite">
+    <h2 class="font-display text-3xl tracking-tight">Available units</h2>
+    {!searchValid ? <p class="mt-4">Enter valid dates, a check-out after check-in, and valid guest counts.</p> : <>
+      <p class="mt-3 text-sm text-muted">{search.arrival} → {search.departure} · {search.adults} adult(s) · {search.children} child(ren). Calendar matches; final rates, stay restrictions and children’s ages are confirmed by Bentral.</p>
+      {matchCount === 0 && results.every(result => !result.failed) && <p class="mt-6">No units match these dates and guests. Try different dates or contact us for a stay across multiple units.</p>}
+      {results.map(({ property, matches, quotes, failed }) => <section data-property={property} aria-labelledby={`units-${property}`} class="mt-12 border-t border-line pt-8">
+        <h3 id={`units-${property}`} class="font-display mb-6 text-3xl">{stays.find(stay => stay.building === property)?.name}</h3>
+        {failed ? <p>Availability could not be checked. Please try again or <a href="/contact/" class="text-moss underline">contact us</a>.</p> : matches.length === 0 ? <p class="text-muted">No matching units.</p> : <>
+          {property !== 'camping' && <UnitGrid units={units.filter(unit => unit.building === property && matches.some(match => match.id === unit.bentral.unit))} query={query} quotes={quotes} />}
+          {property === 'camping' && <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+            {campingPitches.filter(pitch => matches.some(match => match.id === pitch.unit)).map(pitch => <a href={`/camping/${pitch.slug}/?${query}`} class="group border-b border-line bg-white">
+              <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class="aspect-[3/2] w-full object-cover" />
+              <div class="py-6"><h4 class="font-display text-2xl">{pitch.name}</h4><LivePrice quote={quotes[pitch.unit] ?? null} /><p class="mt-3 font-semibold text-moss">View pitch →</p></div>
+            </a>)}
+          </div>}
+        </>}
+      </section>)}
+    </>}
+  </section>}
+  {!searched && <section class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14">
+    <h2 class="font-display mb-6 text-3xl">Our units</h2>
+    <p class="mb-6 text-muted">Select dates and guests to check availability.</p>
+    {searchBuildings.map(property => <section data-property={property} aria-labelledby={`units-${property}`} class="mt-12 border-t border-line pt-8">
+      <h3 id={`units-${property}`} class="font-display mb-6 text-3xl">{stays.find(stay => stay.building === property)?.name}</h3>
+      {property !== 'camping' ? <UnitGrid units={units.filter(unit => unit.building === property)} showBuilding={false} /> : <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
+        {campingPitches.map(pitch => <a href={`/camping/${pitch.slug}/`} class="border-b border-line bg-white">
+          <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class="aspect-[3/2] w-full object-cover" />
+          <div class="py-6"><h4 class="font-display text-2xl">{pitch.name}</h4><p class="mt-3 font-semibold text-moss">View pitch →</p></div>
+        </a>)}
+      </div>}
+    </section>)}
+  </section>}
+  <script>
+    const hero = document.querySelector<HTMLElement>('[data-accommodation-hero]');
+    const bar = hero?.querySelector<HTMLElement>('#booking-bar');
+    if (hero && bar) {
+      const updateOverlap = () => {
+        hero.style.setProperty('--booking-half', `${bar.getBoundingClientRect().height / 2}px`);
+      };
+      updateOverlap();
+      new ResizeObserver(updateOverlap).observe(bar);
+    }
+  </script>
+</BaseLayout>

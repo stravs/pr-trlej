@@ -1,0 +1,122 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import StayCards from '../components/StayCards.astro';
+import Photo from '../components/Photo.astro';
+import { activities, site } from '../data/site';
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="relative isolate overflow-hidden">
+    <Photo
+      src="/images/1-1.jpg"
+      alt="Pr’ Trlej guesthouse with wooden balconies and an outdoor terrace"
+      loading="eager"
+      sizes="100vw"
+      class="absolute inset-0 -z-10 h-full w-full object-cover"
+    />
+    <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/85 via-black/45 to-black/20"></div>
+    <div class="mx-auto flex max-w-6xl flex-col justify-end px-4 pb-28 pt-24 sm:px-6 sm:pb-32 sm:pt-40">
+      <p class="eyebrow max-w-xl leading-relaxed text-cream/90">Begunje na Gorenjskem · Slovenia · 12 km from Bled</p>
+      <h1 class="font-display mt-4 max-w-3xl text-5xl font-normal leading-[1.05] tracking-tight text-cream sm:text-7xl">
+        A little closer to nature.<br />A little more at home.
+      </h1>
+      <p class="mt-5 max-w-xl text-lg text-cream/85">
+        Stay with Ana, Toni and Špela under Dobrča. Choose the traditional house, tourist farm rooms or Camp Starshine camping — with homemade breakfasts and the Alps on your doorstep.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#stays" class="rounded-full bg-cream px-6 py-3 font-semibold text-moss-dark transition-colors hover:bg-sand">Three ways to stay →</a>
+        <a href="/accommodation/" class="rounded-full bg-clay px-6 py-3 font-semibold text-white transition-colors hover:bg-clay-dark">Choose your stay</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="stays" class="scroll-mt-36 bg-sand py-16 sm:py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <p class="eyebrow text-clay">Accommodation</p>
+      <h2 class="font-display mt-3 text-3xl font-bold sm:text-4xl">Three ways to feel at home</h2>
+      <p class="mb-8 mt-4 max-w-2xl text-ink/80">Stay in the traditional house, choose a simple farm room, or bring your tent or campervan. Start with the stay that suits you.</p>
+      <StayCards />
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="mx-auto max-w-6xl px-4 py-20 sm:px-6">
+    <div class="grid items-center gap-10 md:grid-cols-2">
+      <div>
+        <p class="eyebrow text-clay">The farm</p>
+        <h2 class="font-display mt-3 text-3xl font-bold text-ink sm:text-4xl">“Our little alpine paradise.”</h2>
+        <div class="mt-6 space-y-4 text-ink/85">
+          <p>
+            Pr' Trlej sits under the Dobrča ridge, between Begunje and Tržič, surrounded by forest and meadow with views to Triglav, Brezje, Jamnik and Jelovica.
+          </p>
+          <p>
+            It is a working family farm, with breakfast from home-grown ingredients and three ways to stay: the traditional house, tourist farm rooms and camping. Many offer a terrace or balcony; each room page explains the details.
+          </p>
+          <p class="text-muted">Run by Ana, Toni and Špela.</p>
+        </div>
+        <a href="/farm/" class="mt-6 inline-block font-semibold text-moss hover:text-moss-dark">Meet the farm →</a>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <Photo src="/images/20231001_121558.jpg" alt="Horse and rider in a meadow" class="aspect-[3/2] w-full rounded-2xl object-cover" />
+        <Photo src="/images/DSC1301-HDR.jpg" alt="Breakfast laid out in the wood-panelled dining room" class="aspect-[3/2] w-full rounded-2xl object-cover md:mt-8" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Farm & food / Motorcycles teasers -->
+  <section class="mx-auto grid max-w-6xl gap-6 px-4 py-20 sm:px-6 md:grid-cols-2">
+    <a href="/farm/" class="group relative overflow-hidden rounded-3xl">
+      <Photo src="/images/20231001_121558.jpg" alt="Horse and rider in a meadow at the farm" class="aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+      <div class="absolute inset-0 bg-gradient-to-t from-moss-dark/90 to-transparent"></div>
+      <div class="absolute bottom-0 p-6">
+        <p class="eyebrow text-cream/85">Farm & food</p>
+        <h3 class="font-display mt-2 text-2xl font-bold text-cream">Ana's kitchen & the animals</h3>
+        <p class="mt-2 text-cream/80">Ask about homemade breakfast and evening meals, and meet the farm’s animals.</p>
+      </div>
+    </a>
+    <a href="/motorcycles/" class="group relative overflow-hidden rounded-3xl">
+      <Photo src="/images/spela.jpg" alt="Guests with motorcycles outside the guesthouse" class="aspect-[4/3] w-full object-cover transition-transform duration-300 group-hover:scale-105" />
+      <div class="absolute inset-0 bg-gradient-to-t from-moss-dark/90 to-transparent"></div>
+      <div class="absolute bottom-0 p-6">
+        <p class="eyebrow text-cream/85">Motorcycles</p>
+        <h3 class="font-display mt-2 text-2xl font-bold text-cream">Built for riders</h3>
+        <p class="mt-2 text-cream/80">Free covered garage, washing, tools, and Toni's Three Countries route.</p>
+      </div>
+    </a>
+  </section>
+
+  <!-- Activities strip -->
+  <section class="border-y border-line bg-cream py-20">
+    <div class="mx-auto max-w-6xl px-4 sm:px-6">
+      <div class="flex items-end justify-between gap-4">
+        <div>
+          <p class="eyebrow text-clay">Out & about</p>
+          <h2 class="font-display mt-3 text-3xl font-bold text-ink sm:text-4xl">From the farm to the mountains</h2>
+        </div>
+        <a href="/activities/" class="hidden shrink-0 font-semibold text-moss hover:text-moss-dark sm:inline">All activities →</a>
+      </div>
+      <div class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {activities.map((item) => (
+          <div class="rounded-2xl bg-sand p-6">
+            <h3 class="font-display text-lg font-bold text-moss">{item.title}</h3>
+            <p class="mt-2 text-sm text-ink/75">{item.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+    <div class="grid gap-8 rounded-3xl bg-sand p-8 md:grid-cols-2">
+      <div><p class="eyebrow text-clay">Find us</p><h2 class="font-display mt-3 text-3xl font-bold">Under Dobrča, near Bled</h2>
+        <p class="mt-4 text-ink/80">{site.address}, {site.city}, Slovenia. Between Begunje and Tržič, around 12 km from Bled.</p>
+        <a href="/location/" class="mt-5 inline-block font-semibold text-moss">Directions & arrival →</a>
+      </div>
+      <div><h3 class="font-display text-2xl font-bold">Let’s find your stay</h3><p class="mt-4 text-ink/80">Choose the house, farm rooms or camping to explore your options and check dates.</p>
+        <div class="mt-5 flex flex-wrap gap-4 font-semibold text-moss"><a href="/traditional-house/">Traditional house →</a><a href="/tourist-farm/">Tourist farm →</a><a href="/camping/">Camping →</a></div>
+        <a href="/contact/" class="mt-5 inline-block text-sm font-semibold text-moss">Ask the family for help →</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

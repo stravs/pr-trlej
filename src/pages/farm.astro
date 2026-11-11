@@ -1,0 +1,81 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Photo from '../components/Photo.astro';
+import PageHero from '../components/PageHero.astro';
+import PhotoGallery from '../components/PhotoGallery.astro';
+import { farmAnimals, farmProduce } from '../data/site';
+---
+
+<BaseLayout title="Farm & food" description="The animals, homemade breakfast and Ana's kitchen at Pr' Trlej.">
+  <PageHero eyebrow="Farm & food" title="A working farm, a welcoming table" lead="Breakfast from home-grown ingredients, animals for the children, and Ana's kitchen in the evening." image="farm-breakfast-table.jpg" alt="Homemade breakfast laid out on red gingham tablecloths" />
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <div class="grid gap-10 md:grid-cols-2">
+      <div>
+        <h2 class="font-display text-4xl font-normal tracking-tight text-ink">The animals</h2>
+        <p class="mt-4 text-ink/90">
+          Children (and grown-ups) meet the farm every day. Around the house there are ponies, horses, rabbits, cats, guinea pigs and chickens — and on the pastures cows, calves and donkeys.
+        </p>
+        <p class="mt-3 text-ink/90">There is a playground and trampoline, and you can book a ride in the tractor and carriage with the owner.</p>
+      </div>
+      <div class="border-t border-line py-7">
+        <Photo src="/images/farm-horses.jpg" alt="Horses grazing in the meadow at the farm" class="mb-6 aspect-[3/2] w-full object-cover" />
+        <p class="eyebrow text-clay">Who lives here</p>
+        <ul class="mt-4 grid grid-cols-2 gap-2 text-ink">
+          {farmAnimals.map((animal) => (
+            <li class="border-b border-line px-1 py-3 text-sm">{animal}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-sand py-16">
+    <div class="mx-auto max-w-[1320px] px-5 sm:px-10 lg:px-14">
+      <div class="grid gap-10 md:grid-cols-2">
+        <div>
+          <h2 class="font-display text-4xl font-normal tracking-tight text-ink">Breakfast</h2>
+          <p class="mt-4 text-ink/90">
+            A self-service breakfast made mostly at home: cured meats, cheeses, jams, honey, fruit, vegetables and juices. Fresh eggs and sausages are cooked to order each morning.
+          </p>
+          <p class="mt-3 text-ink/90">Vegetarian and vegan options are available on request; half board is also possible.</p>
+        </div>
+        <div>
+          <h2 class="font-display text-4xl font-normal tracking-tight text-ink">From the farm</h2>
+          <p class="mt-4 text-ink/90">You can buy what the farm makes:</p>
+          <ul class="mt-4 grid grid-cols-2 gap-2 text-ink">
+            {farmProduce.map((item) => (
+              <li class="border-b border-line px-1 py-3 text-sm">{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <div class="grid gap-10 md:grid-cols-3">
+      <div class="md:col-span-2">
+        <h2 class="font-display text-4xl font-normal tracking-tight text-ink">Ana's kitchen</h2>
+        <p class="mt-4 text-ink/90">Dinner is traditional Slovenian home cooking, prepared to order and adapted to the season:</p>
+        <ul class="mt-4 grid gap-2 text-ink/85 sm:grid-cols-2">
+          <li class="border-b border-line px-1 py-3 text-sm">Sausages, sour cabbage & štruklji</li>
+          <li class="border-b border-line px-1 py-3 text-sm">Goulash, risotto & pasta</li>
+          <li class="border-b border-line px-1 py-3 text-sm">Omelettes & home-origin meat</li>
+          <li class="border-b border-line px-1 py-3 text-sm">Mushrooms from Dobrča & Begunjščica</li>
+          <li class="border-b border-line px-1 py-3 text-sm">Apple strudel & gibanica</li>
+          <li class="border-b border-line px-1 py-3 text-sm">Cold cuts & salads with local oils</li>
+        </ul>
+        <p class="mt-4 text-sm text-muted">Guests say it tastes like their mother's or grandmother's cooking.</p>
+      </div>
+      <div class="overflow-hidden rounded-none">
+        <Photo src="/images/farm-breakfast-cake.jpg" alt="A slice of layered homemade cake on a farmhouse table" class="aspect-[3/2] w-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </section>
+  <PhotoGallery eyebrow="From the kitchen & garden" title="Little things, made at home" photos={[
+    {src:'farm-breakfast-pastries.jpg',alt:'A basket of breakfast pastries on the table',caption:'Something warm for breakfast.'},
+    {src:'farm-apples.jpg',alt:'Fresh apples collected from the farm',caption:'From the garden, in season.'},
+    {src:'farm-dinner.jpg',alt:'Traditional sausages, potatoes and cabbage served at the farm',caption:'A taste of Ana’s kitchen.'},
+  ]} />
+</BaseLayout>

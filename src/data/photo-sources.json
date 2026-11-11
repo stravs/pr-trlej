@@ -1,0 +1,128 @@
+{
+  "guesthouse-summer.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/134709029.jpg?k=7ec91637b895d0f6d9c189876d83783ca3a3f9aeea25e1261370cd2996da2366&o=&hp=1",
+    "scope": "property",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "guesthouse-garden.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/19715907.jpg?k=35910697ca1cad0c76e05f65c77d2810b98033cde1a7d09c8bf8174bef5d0e7c",
+    "scope": "property",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "guesthouse-terrace.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/68875119.jpg?k=30bdf48eccbddf41abf93de5cf27aa7a3efbeb027f4957c54d1207ce7519341c&o=&hp=1",
+    "scope": "property",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "farm-breakfast-table.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/343308304.jpg?k=3b54d743719c040ad8268448ba6ddd62a8339a2d1c1f0fae7f3d5399ab0bea7f&o=&hp=1",
+    "scope": "food",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "farm-breakfast-pastries.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/343301106.jpg?k=23c314f089bcc05c8ea73892ad2efda0abfbbb631dcda80ffa269d1ffe52817a&o=&hp=1",
+    "scope": "food",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "farm-breakfast-cake.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/343301094.jpg?k=8ab3828314102ea46996960850c4a775c4a62e6906400c54e6e16a6a1245ac20&o=&hp=1",
+    "scope": "food",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "farm-apples.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/25249096.jpg?k=08b798635b35169bab742b3db2e0c3605c0182575b073bb212085c9ae78a5e2a",
+    "scope": "food",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "traditional-house-details.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/343308328.jpg?k=1c65d8853f64399c1547f3f743b045c11a568c0e3fd7d8acf293efe6c9f5ca0a",
+    "scope": "property-interior",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "traditional-house-table.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/343308341.jpg?k=b531590c43bb3a327e5fd469707cb9b7de046902cee3653caeac903bd1761da5",
+    "scope": "property-interior",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "camp-sunset.jpg": {
+    "sourcePage": "https://www.campstarshine.si/en/tent-pitch.html",
+    "sourceImage": "https://data.bentral.com/images/5f7a45784e515f4e/5f5459334d44634d/1.jpg",
+    "scope": "camping",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "camp-night.jpg": {
+    "sourcePage": "https://www.campstarshine.si/en/tent-pitch.html",
+    "sourceImage": "https://data.bentral.com/images/5f7a45784e515f4e/5f5459334d44634d/2.jpg",
+    "scope": "camping",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "camp-valley.jpg": {
+    "sourcePage": "https://www.campstarshine.si/en/campervan-tent-pitches.html",
+    "sourceImage": "https://data.bentral.com/images/5f7a45784e515f4e/5f5459334d44594d/1.jpg",
+    "scope": "camping",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "camp-breakfast.jpg": {
+    "sourcePage": "https://www.campstarshine.si/en/campervan-tent-pitches.html",
+    "sourceImage": "https://data.bentral.com/images/5f7a45784e515f4e/5f5459334d44594d/2.jpg",
+    "scope": "food",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "area-river-walk.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/18809318.jpg?k=c4161a8407900a65d1417a3f97cf1c3d175a9cd9aacb5df938c7b213b36d514a&o=&hp=1",
+    "scope": "surroundings",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "area-lake-bled.jpg": {
+    "sourcePage": "https://www.booking.com/hotel/si/pr-trlej.en-gb.html",
+    "sourceImage": "https://cf.bstatic.com/xdata/images/hotel/max1280/18809256.jpg?k=35679573748cbaa1ee16a42926ee16721cd94c4e0313c1c1695be8caed6a2ed2&o=&hp=1",
+    "scope": "surroundings",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "farm-horses.jpg": {
+    "sourcePage": "https://www.trlej.com/en/photos/",
+    "sourceImage": "https://www.trlej.com/wp-content/uploads/2016/04/JFUN1465-1.jpg",
+    "scope": "farm",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "farm-dinner.jpg": {
+    "sourcePage": "https://www.trlej.com/en/photos/",
+    "sourceImage": "https://www.trlej.com/wp-content/uploads/2016/04/IMG_0047-1.jpg",
+    "scope": "food",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  },
+  "area-mountain-path.jpg": {
+    "sourcePage": "https://www.trlej.com/en/photos/",
+    "sourceImage": "https://www.trlej.com/wp-content/uploads/2016/04/JFUN0470-1.jpg",
+    "scope": "surroundings",
+    "usage": "Private preview; owner photo-rights review pending.",
+    "reviewed": "2026-11-11"
+  }
+}

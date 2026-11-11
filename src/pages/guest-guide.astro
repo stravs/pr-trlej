@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+
+const sections = [
+  { id: 'arrival', title: 'Arrival', body: 'Check-in is from 16:00 to 21:00. Let us know your arrival time, especially if you will be late.' },
+  { id: 'breakfast', title: 'Breakfast', body: 'Self-service breakfast from home-made food. Fresh eggs and sausages are cooked to order each morning.' },
+  { id: 'wifi', title: 'Wi-Fi', body: 'Free in all areas. Ask for the network name at check-in.' },
+  { id: 'parking', title: 'Parking', body: 'Free private parking on site — cars, coaches and motorcycles (covered garage for bikes).' },
+  { id: 'animals', title: 'Animals', body: 'Ponies, horses and other animals live on the farm. They are friendly, but children should be supervised.' },
+  { id: 'food', title: 'Evening food', body: 'Dinner and half board are available on request. Tell us about vegetarian or gluten-free needs in advance.' },
+  { id: 'departure', title: 'Departure', body: 'Check-out is from 08:00 to 09:00. We can store luggage if you want to spend the day nearby.' },
+  { id: 'help', title: 'Help', body: 'Ana, Toni and Špela live on the farm and are usually around. For anything urgent, call the main number.' },
+];
+---
+
+<BaseLayout title="Guest guide" description="Everything you need for a comfortable stay at Pr' Trlej.">
+  <PageHero eyebrow="Guest guide" title="When you're here" lead="Arrival, breakfast, Wi-Fi and the little things — so you can settle in without wondering." image="traditional-house-table.jpg" alt="Red gingham tablecloth and glasses in the guesthouse" />
+
+  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
+    <p class="mb-8 max-w-2xl text-ink/90">Staying in the house or tourist farm rooms? Start here. Camping guests should confirm pitch facilities and arrival arrangements through <a href="/camping/" class="font-semibold text-moss underline underline-offset-4">Camp Starshine</a>.</p>
+    <div class="grid gap-6 md:grid-cols-2">
+      {sections.map((section) => (
+        <div class="border-t border-line py-7">
+          <h2 class="font-display text-2xl font-normal tracking-tight text-moss">{section.title}</h2>
+          <p class="mt-2 text-ink/90">{section.body}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

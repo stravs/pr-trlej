@@ -1,0 +1,26 @@
+---
+import images from '../data/images.json';
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+}
+const { src, alt, class: className, sizes = '(min-width: 1152px) 560px, (min-width: 768px) 50vw, 100vw', loading = 'lazy' } = Astro.props;
+const name = src.replace('/images/', '') as keyof typeof images;
+const image = images[name];
+if (!image) throw new Error(`Missing reviewed local image: ${src}`);
+---
+<img
+  src={image.variants[image.variants.length - 1].src}
+  srcset={image.variants.map((variant) => `${variant.src} ${variant.width}w`).join(', ')}
+  sizes={sizes}
+  width={image.width}
+  height={image.height}
+  alt={alt}
+  class={className}
+  loading={loading}
+  decoding="async"
+  fetchpriority={loading === 'eager' ? 'high' : undefined}
+/>
