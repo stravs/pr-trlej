@@ -57,7 +57,7 @@ const facts = [
         <p id="unit-selection-note" class="mt-3 text-xs text-muted">Live availability and rates in the farm's booking system.</p>
       </div>
       <div class="self-start overflow-hidden">
-        <Photo src={`/images/${unit.images[0]}`} alt={unit.name} class="aspect-[3/2] w-full object-cover" loading="eager" />
+        <Photo src={`/images/${unit.images[0]}`} alt={unit.name} class="aspect-[3/2] w-full object-cover" sizes="(min-width: 1320px) 584px, (min-width: 1024px) calc((100vw - 152px) / 2), (min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)" loading="eager" />
       </div>
     </div>
   </section>
@@ -83,6 +83,7 @@ const facts = [
             src={`/images/${image}`}
             alt={`${unit.name} — photo ${index + 2}`}
             class="aspect-[3/2] w-full rounded-none object-cover"
+            sizes="(min-width: 1320px) 395px, (min-width: 1024px) calc((100vw - 136px) / 3), (min-width: 768px) calc((100vw - 104px) / 3), (min-width: 640px) calc((100vw - 92px) / 2), calc((100vw - 52px) / 2)"
             loading="lazy"
           />
         ))}

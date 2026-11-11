@@ -11,7 +11,7 @@ const { units, query = '', showBuilding = true, quotes } = Astro.props;
   {units.map((unit) => (
             <a href={`/rooms/${unit.slug}/${query ? `?${query}` : ''}`} data-stay-link data-unit-slug={unit.slug} class="group overflow-hidden rounded-none bg-white border-b border-line">
               <div class="aspect-[3/2] overflow-hidden">
-                <Photo src={`/images/${unit.images[0]}`} alt={unit.name} class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" loading="lazy" />
+                <Photo src={`/images/${unit.images[0]}`} alt={unit.name} class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]" sizes="(min-width: 1320px) 376px, (min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 640px) calc((100vw - 120px) / 2), calc(100vw - 40px)" loading="lazy" />
               </div>
               <div class="py-6">
                 <div class="flex flex-col items-start gap-3">

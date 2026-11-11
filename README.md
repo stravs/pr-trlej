@@ -42,6 +42,79 @@ All commands are run from the root of the project, from a terminal:
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
 
+## Images
+
+Reviewed originals live in `src/assets/images/`. `Photo.astro` uses Astro's
+`Image` component to generate WebP candidates from 320px to 1600px, without
+upscaling. Keep the existing `/images/<reviewed-name>.jpg` component props;
+these are lookup keys, not public URLs. Photo provenance stays in
+`src/data/photo-sources.json`.
+
+`npm run build` handles image generation; no Python preparation step is needed.
+Static pages get build-time variants. On-demand booking pages use the Cloudflare
+Images binding at runtime. Original imports are bundled for this endpoint;
+moving them out of `public` does not make them private assets.
+
+Image browser checks (start the production server first):
+
+```sh
+npm run preview -- --host 0.0.0.0 --port 4334
+PREVIEW_URL=http://127.0.0.1:4334 /workspace/izba/.venv/bin/python tests/check-images.py
+```
+
+## Cloudflare Workers deployment
+
+This is a Workers app, not a static Pages upload. Marketing pages are prerendered;
+booking pages and `/api/availability/` run on demand. No sessions or KV namespace
+are needed. `wrangler.jsonc` configures the Worker and its asset/image bindings.
+
+```sh
+npm ci
+npm run deploy:check          # build + dry run; does not publish
+npm run preview -- --host 0.0.0.0 --port 4334
+PREVIEW_URL=http://127.0.0.1:4334 npm test
+```
+
+For a direct Wrangler routing test after building:
+
+```sh
+npx wrangler dev --config dist/server/wrangler.json --ip 0.0.0.0 --port 4334
+```
+
+Use the generated `dist/server/wrangler.json` for direct Wrangler commands;
+Astro also writes `.wrangler/deploy/config.json` so `wrangler deploy` finds it.
+Do not deploy only `dist/client`. Rebuild after changing configuration.
+
+When publication is approved, authenticate with `npx wrangler login` locally,
+or provide `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` as CI secrets, then
+run `npm run deploy`. No credentials belong in this repository.
+For Cloudflare Workers Builds, set this directory as the project root,
+`npm run build` as the build command, and `npx wrangler deploy` as the deploy
+command. No custom domain or account ID is hard-coded.
+
+Important before publishing:
+
+- **Preview indexing is deliberately disabled** in HTML, middleware and
+  `public/_headers`. Noindex is not authentication. Use Cloudflare Access if
+  preview access must be restricted. Keep prototype/previous-home routes private
+  or excluded from a future production launch.
+- **Runtime image optimization requires Cloudflare Images.** `IMAGES` is declared
+  explicitly; static images compile locally. Verify account availability and
+  current Images pricing/quotas before deploying. Local tests use a simulated
+  binding (`remoteBindings: false`); no paid image calls are needed for tests.
+- Static fingerprinted assets bypass the Worker and use immutable caching.
+  Date/guest-specific HTML, JSON and errors use `no-store`. Do not add a
+  dashboard Cache Everything rule for booking or API routes.
+- Observability is off by default to avoid logging booking query data. Configure
+  logging/redaction deliberately if enabling it later.
+- Live Bentral access, final booking handoff, domain routing, Cloudflare Access,
+  WAF/rate limits and deployed image quotas require a separate deployment check.
+  Local offline checks do not verify the upstream provider.
+
+References: [Astro Cloudflare adapter](https://docs.astro.build/en/guides/integrations-guide/cloudflare/),
+[Workers asset routing](https://developers.cloudflare.com/workers/static-assets/routing/advanced/html-handling/),
+[Cloudflare Images pricing](https://developers.cloudflare.com/images/pricing/).
+
 ## Camping booking
 
 `/camping/` submits dates and guests to `/accommodation/?building=camping`.

@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "pr-trlej",
+  "main": "@astrojs/cloudflare/entrypoints/server",
+  "compatibility_date": "2026-11-03",
+  "compatibility_flags": ["global_fetch_strictly_public"],
+  "workers_dev": true,
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS",
+    "html_handling": "force-trailing-slash",
+    "not_found_handling": "none",
+    "run_worker_first": false
+  },
+  "images": { "binding": "IMAGES" },
+  "observability": { "enabled": false }
+}

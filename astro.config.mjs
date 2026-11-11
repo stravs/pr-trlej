@@ -3,15 +3,18 @@ import { defineConfig } from 'astro/config';
 
 import tailwindcss from '@tailwindcss/vite';
 
-import node from '@astrojs/node';
+import cloudflare from '@astrojs/cloudflare';
 
 // https://astro.build/config
 export default defineConfig({
+  trailingSlash: 'always',
+  session: false,
   vite: {
     plugins: [tailwindcss()]
   },
 
-  adapter: node({
-    mode: 'standalone'
+  adapter: cloudflare({
+    imageService: { build: 'compile', runtime: 'cloudflare-binding' },
+    remoteBindings: false,
   })
 });
