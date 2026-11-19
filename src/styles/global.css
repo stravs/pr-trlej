@@ -17,6 +17,16 @@
   --text-base: 1.125rem;
   --text-base--line-height: 1.7;
   --font-display: "Georgia", "Times New Roman", ui-serif, serif;
+  /* Paper lying flat on cloth, soft window light from the upper left: thin contact line, short ambient
+     falloff, no float. Red-tinted so it reads as a shadow on the red check. */
+  --shadow-lay:
+    inset 0 0 0 0.5px rgb(255 255 255 / 0.5),
+    0 0 0 0.5px rgb(70 20 10 / 0.12),
+    0 0.5px 1px rgb(40 5 5 / 0.22),
+    0 0 4px rgb(50 8 8 / 0.08),
+    1px 2px 3px rgb(40 5 5 / 0.1),
+    2px 5px 10px -2px rgb(50 8 8 / 0.1),
+    4px 10px 22px -6px rgb(50 8 8 / 0.1);
   --font-body: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
@@ -40,6 +50,37 @@
     linear-gradient(#fff, #fff) padding-box,
     linear-gradient(var(--gingham), var(--gingham)) border-box,
     #fff;
+}
+
+/* Set --check to change the check size and --weave for thread-line strength. */
+/* Photoreal woven gingham tablecloth for the home hero. Layers, top to bottom:
+   window light, ironed creases, soft cloth undulation, thread grain, weave lines, red bands. */
+@utility bg-tablecloth {
+  --band: rgb(200 20 32 / 0.55);
+  background-color: #fffdf9;
+  background-image:
+    radial-gradient(120% 90% at 22% 8%, rgb(255 250 240 / 0.3), transparent 55%),
+    radial-gradient(140% 120% at 50% 40%, transparent 55%, rgb(60 8 10 / 0.34) 100%),
+    linear-gradient(90deg, transparent calc(64% - 26px), rgb(70 10 10 / 0.07) calc(64% - 1px), rgb(255 255 255 / 0.18) calc(64% + 1px), transparent calc(64% + 26px)),
+    linear-gradient(transparent calc(52% - 22px), rgb(70 10 10 / 0.06) calc(52% - 1px), rgb(255 255 255 / 0.16) calc(52% + 1px), transparent calc(52% + 22px)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1400' height='900'%3E%3Cfilter id='f'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.0035 0.006' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeDiffuseLighting lighting-color='%23fff' surfaceScale='24'%3E%3CfeDistantLight azimuth='235' elevation='58'/%3E%3C/feDiffuseLighting%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23f)'/%3E%3C/svg%3E"),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.47 0 0 0 1 -0.42'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"),
+    repeating-linear-gradient(90deg, rgb(80 20 15 / var(--weave, 0.05)) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(rgb(80 20 15 / var(--weave, 0.05)) 0 1px, transparent 1px 3px),
+    linear-gradient(90deg, var(--band) 50%, transparent 50%),
+    linear-gradient(var(--band) 50%, transparent 50%);
+  background-size: auto, auto, auto, auto, 1400px 900px, 260px 260px, auto, auto, var(--check, 36px) var(--check, 36px), var(--check, 36px) var(--check, 36px);
+  background-blend-mode: normal, multiply, normal, normal, multiply, multiply, normal, normal, normal, normal;
+}
+
+/* Matte card stock for paper laid on the tablecloth. */
+@utility bg-paper {
+  background-color: #fffcf5;
+  background-image:
+    radial-gradient(130% 100% at 20% 0%, rgb(255 255 255 / 0.7), transparent 60%),
+    linear-gradient(135deg, transparent 55%, rgb(90 55 30 / 0.07)),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.55 0 0 0 0 0.5 0 0 0 0 0.42 0 0 0 0.9 -0.38'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-blend-mode: normal, normal, multiply;
 }
 
 html {

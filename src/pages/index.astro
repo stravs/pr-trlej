@@ -5,20 +5,26 @@ import { stays } from '../data/stays';
 ---
 <BaseLayout>
 
-    <section class="relative isolate overflow-x-clip px-5 pt-6 pb-12 sm:p-0">
-      <div class="max-sm:border-gingham mx-auto grid max-w-[1320px] items-center sm:gap-8 sm:px-10 sm:py-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch lg:gap-10 lg:px-14 lg:py-16">
-      <div class="relative min-w-0 lg:self-stretch">
-        <figure class="sm:border-gingham overflow-hidden lg:absolute lg:inset-0">
-          <Photo src="/images/guesthouse-summer.jpg" alt="Flower-filled wooden balconies and the guesthouse surrounded by summer greenery" loading="eager" class="aspect-[4/3] w-full object-cover sm:aspect-[6/5] lg:h-full lg:aspect-auto" sizes="(min-width: 1320px) 622px, (min-width: 1024px) calc((100vw - 152px) * 0.55 - 20px), (min-width: 640px) calc(100vw - 100px), calc(100vw - 60px)" />
-        </figure>
-      </div>
-      <div class="sm:border-gingham relative p-5 sm:px-8 sm:py-10 lg:px-9 lg:py-11">
-        <p class="flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.1em] text-clay sm:text-[14px] sm:tracking-[0.16em]"><span aria-hidden="true" class="hidden h-px w-7 shrink-0 bg-clay/60 sm:block"></span><span>Good food. Fresh air.<br class="sm:hidden" /> A warm welcome.</span></p>
-        <h1 class="font-display mt-5 text-[clamp(2.75rem,4.8vw,4.5rem)] leading-[1.06] tracking-[-0.045em]">A little farm.<br />A big <span class="italic text-[#b4222a]">welcome.</span></h1>
-        <p class="mt-6 max-w-sm text-base leading-7 text-[#5f5043]">Come for the mountains. Stay for the homemade breakfast, the slower mornings, and the feeling of being right at home.</p>
-        <a href="/accommodation/" class="mt-7 inline-flex min-h-12 items-center gap-4 bg-brick px-4 py-3.5 text-sm font-semibold text-cream transition-colors hover:bg-brick-dark">Book now <span aria-hidden="true">↗</span></a>
-        <div class="mt-7 flex items-center gap-3 border-t border-line pt-5"><span aria-hidden="true" class="font-display text-3xl text-clay">❧</span><p class="text-xs leading-7">Hosted by Ana, Toni & Špela<br /><span class="text-[#655544]">Under Dobrča, near Bled.</span></p></div>
-      </div>
+    <section class="bg-tablecloth [--check:28px] [--weave:0.025] sm:[--check:36px] sm:[--weave:0.05] relative isolate overflow-clip px-5 pt-8 pb-12 sm:px-10 sm:py-16 lg:px-14 lg:py-24">
+      <div class="mx-auto grid max-w-[1208px] items-center sm:gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+        <div class="relative z-10 min-w-0 px-1 sm:px-0">
+          <figure class="shadow-lay absolute -bottom-10 -right-6 hidden w-[46%] rotate-[7deg] bg-white p-2.5 sm:block lg:-bottom-12 lg:-right-10">
+            <Photo src="/images/farm-breakfast-pastries.jpg" alt="" class="aspect-[4/3] w-full object-cover" sizes="(min-width: 1024px) 280px, 46vw" />
+          </figure>
+          <figure class="shadow-lay relative -rotate-[1.5deg] bg-white p-2.5 sm:-rotate-2 sm:p-3.5">
+            <Photo src="/images/guesthouse-summer.jpg" alt="Flower-filled wooden balconies and the guesthouse surrounded by summer greenery" loading="eager" class="aspect-[4/3] w-full object-cover sm:aspect-[6/5] lg:aspect-[5/4]" sizes="(min-width: 1320px) 640px, (min-width: 1024px) calc((100vw - 176px) * 0.55), (min-width: 640px) calc(100vw - 108px), calc(100vw - 60px)" />
+            <span aria-hidden="true" class="pointer-events-none absolute inset-2.5 bg-linear-[125deg] from-white/25 via-white/0 via-40% to-black/10 sm:inset-3.5"></span>
+          </figure>
+        </div>
+        <div class="relative">
+          <div class="bg-paper shadow-lay relative -mt-5 px-6 pt-11 pb-7 sm:mt-0 sm:rotate-1 sm:px-10 sm:py-11 lg:px-11 lg:py-12">
+            <p class="flex items-center gap-3 text-[13px] font-semibold uppercase tracking-[0.1em] text-clay sm:text-[14px] sm:tracking-[0.16em]"><span aria-hidden="true" class="hidden h-px w-7 shrink-0 bg-clay/60 sm:block"></span><span>Good food. Fresh air.<br /> A warm welcome.</span></p>
+            <h1 class="font-display mt-5 text-[clamp(2.75rem,4.8vw,4.5rem)] leading-[1.06] tracking-[-0.045em]">A little farm.<br />A big <span class="italic text-[#b4222a]">welcome.</span></h1>
+            <p class="mt-6 max-w-sm text-base leading-7 text-[#5f5043]">Come for the mountains. Stay for the homemade breakfast, the slower mornings, and the feeling of being right at home.</p>
+            <a href="/accommodation/" class="mt-7 inline-flex min-h-12 items-center gap-4 bg-brick px-4 py-3.5 text-sm font-semibold text-cream transition-colors hover:bg-brick-dark">Book now <span aria-hidden="true">↗</span></a>
+            <div class="mt-7 flex items-center gap-3 border-t border-line pt-5"><span aria-hidden="true" class="font-display text-3xl text-clay">❧</span><p class="text-xs leading-7">Hosted by Ana, Toni & Špela<br /><span class="text-[#655544]">Under Dobrča, near Bled.</span></p></div>
+          </div>
+        </div>
       </div>
     </section>
     <section aria-label="Stay highlights" class="border-y border-line bg-white px-5 py-2 text-ink sm:px-10 lg:px-14">
