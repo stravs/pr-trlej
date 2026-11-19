@@ -1,6 +1,7 @@
 ---
 import { campingPitches, type Building } from '../data/site';
 import { stays } from '../data/stays';
+import { formatStay } from '../lib/dates';
 interface Props {
   action?: string;
   building?: Building;
@@ -14,17 +15,18 @@ interface Props {
 }
 const { action = '/accommodation/#booking', building, selectProperty = false, selectPitch = false, arrival: arrivalValue, departure: departureValue, adults = '2', unit, pitch } = Astro.props;
 const hasSelector = selectProperty || selectPitch;
+const datesText = (arrivalValue && departureValue && formatStay(arrivalValue, departureValue, true)) || 'Add dates';
 ---
-<div id="booking-bar" class="rounded-none border border-cream/15 bg-moss p-5  sm:p-6">
-  <form action={action} method="get" id="booking-form" class:list={['grid grid-cols-2 gap-4', hasSelector ? 'sm:grid-cols-4 xl:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,0.6fr)_auto] xl:items-end' : 'lg:grid-cols-[1fr_1fr_0.65fr_auto] lg:items-end']}>
-    {selectProperty ? <label class="col-span-2 min-w-0 sm:col-span-4 xl:col-span-1">
+<div id="booking-bar" class="border border-cream/15 bg-moss p-5 sm:p-6">
+  <form action={action} method="get" id="booking-form" class:list={['group grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-4', hasSelector ? 'sm:grid-cols-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)_minmax(0,0.6fr)_auto] xl:items-end' : 'lg:grid-cols-[minmax(0,2fr)_minmax(0,0.6fr)_auto] lg:items-end']}>
+    {selectProperty ? <label class="col-span-2 min-w-0 xl:col-span-1">
       <span id="property-label" class="mb-2 block text-xs font-semibold text-cream">Property</span>
-      <select id="property" name="building" aria-labelledby="property-label" class="min-h-12 w-full min-w-0 rounded-sm border border-cream/20 bg-white px-3 py-2.5 text-ink">
+      <select id="property" name="building" aria-labelledby="property-label" class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink">
         <option value="" selected={!building}>All properties</option>
         {stays.map(stay => <option value={stay.building} selected={stay.building === building}>{stay.name}</option>)}
       </select>
     </label> : <input type="hidden" name="building" value={building} />}
-    {selectPitch && <label class="col-span-2 min-w-0 sm:col-span-4 xl:col-span-1">
+    {selectPitch && <label class="col-span-2 min-w-0 xl:col-span-1">
       <span id="pitch-label" class="mb-2 block text-xs font-semibold text-cream">Pitch type</span>
       <select name="pitch" aria-labelledby="pitch-label" class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink">
         <option value="" selected={!pitch}>Any pitch</option>
@@ -33,33 +35,82 @@ const hasSelector = selectProperty || selectPitch;
     </label>}
     {unit && <input type="hidden" name="unit" value={unit} />}
     {pitch && !selectPitch && <input type="hidden" name="pitch" value={pitch} />}
-    <label class:list={["min-w-0", hasSelector && "col-span-2 xl:col-span-1"]}>
-      <span class="mb-2 block text-xs font-semibold text-cream">Check-in</span>
-      <input id="arrival" type="date" name="arrival" value={arrivalValue ?? undefined} class="min-h-12 w-full min-w-0 rounded-none border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
-    </label>
-    <label class:list={["min-w-0", hasSelector && "col-span-2 xl:col-span-1"]}>
-      <span class="mb-2 block text-xs font-semibold text-cream">Check-out</span>
-      <input id="departure" type="date" name="departure" value={departureValue ?? undefined} class="min-h-12 w-full min-w-0 rounded-none border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
-    </label>
-    <label>
+    <div class:list={['col-span-2 min-w-0', hasSelector ? 'xl:col-span-1' : 'lg:col-span-1']}>
+      <!-- Native date fields: the no-JavaScript fallback. Hidden once the Cally picker is ready. -->
+      <div class="grid gap-4 sm:grid-cols-2 group-data-[enhanced]:hidden">
+        <label class="min-w-0">
+          <span class="mb-2 block text-xs font-semibold text-cream">Check-in</span>
+          <input id="arrival" type="date" name="arrival" value={arrivalValue ?? undefined} class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
+        </label>
+        <label class="min-w-0">
+          <span class="mb-2 block text-xs font-semibold text-cream">Check-out</span>
+          <input id="departure" type="date" name="departure" value={departureValue ?? undefined} class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
+        </label>
+      </div>
+      <div class="hidden group-data-[enhanced]:block">
+        <span id="dates-label" class="mb-2 block text-xs font-semibold text-cream">Check-in – check-out</span>
+        <button type="button" id="dates-button" aria-haspopup="dialog" aria-labelledby="dates-label dates-text" class="flex min-h-12 w-full items-center justify-between gap-3 border border-cream/20 bg-white px-3 py-2 text-left text-ink">
+          <span id="dates-text" class="truncate">{datesText}</span>
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 shrink-0 fill-none stroke-current stroke-[1.5]"><rect x="3.5" y="5" width="17" height="15.5" rx="1" /><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke-linecap="round" /></svg>
+        </button>
+      </div>
+    </div>
+    <label class:list={['min-w-0', hasSelector && 'sm:col-span-2 xl:col-span-1']}>
       <span class="mb-2 block text-xs font-semibold text-cream">Adults</span>
-      <select name="adults" class="min-h-12 w-full rounded-none bg-white px-3 py-2.5 text-ink">
+      <select name="adults" class="min-h-12 w-full bg-white px-3 py-2.5 text-ink">
         {Array.from({ length: 7 }, (_, i) => i + 1).map((n) => <option value={n} selected={String(n) === adults}>{n}</option>)}
       </select>
     </label>
-    <button type="submit" class:list={['col-span-2 min-h-12 rounded-none bg-white px-6 py-3 font-semibold text-moss transition-colors hover:bg-sand', hasSelector ? 'xl:col-span-1' : 'lg:col-span-1']}>Check dates →</button>
+    <button type="submit" class:list={['min-h-12 self-end bg-white px-3 py-3 font-semibold text-moss transition-colors hover:bg-sand sm:px-6', hasSelector && 'sm:col-span-2 xl:col-span-1']}>Check dates →</button>
   </form>
   <p class="mt-4 text-xs leading-relaxed text-cream/95">Final availability and prices are confirmed in the booking form. Children and their ages are entered there. Groups of 8+ — <a href="/contact/" class="underline underline-offset-4">contact us</a>.</p>
   <noscript><p class="mt-2 text-xs text-cream">Choose a check-out date after check-in. Dates are confirmed in the booking system.</p></noscript>
+
+  <dialog id="dates-dialog" aria-labelledby="dates-dialog-title" class="mx-0 mt-auto mb-0 w-full max-w-none bg-white text-ink backdrop:bg-ink/60 sm:m-auto sm:w-fit sm:max-w-[calc(100%-2rem)]">
+    <div class="p-5 sm:p-7">
+      <div class="flex items-start justify-between gap-4">
+        <div>
+          <h2 id="dates-dialog-title" class="font-display text-2xl">Choose your dates</h2>
+          <p id="dates-status" aria-live="polite" class="mt-1 text-sm text-muted">Select your check-in date.</p>
+        </div>
+        <button type="button" data-dates-close class="-mr-2 flex size-12 shrink-0 items-center justify-center text-2xl leading-none hover:bg-sand"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+      </div>
+      <calendar-range id="dates-calendar" locale="en-GB" class="mx-auto mt-4 block w-fit [&::part(button)]:size-12 [&::part(button)]:border [&::part(button)]:border-line [&::part(button)]:bg-white [&::part(button)]:hover:bg-sand [&::part(heading)]:font-display [&::part(heading)]:text-xl [&::part(heading)]:font-normal">
+        <svg aria-label="Previous month" slot="previous" viewBox="0 0 24 24" class="size-5 fill-none stroke-current stroke-2"><path d="M15.75 19.5 8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <svg aria-label="Next month" slot="next" viewBox="0 0 24 24" class="size-5 fill-none stroke-current stroke-2"><path d="m8.25 4.5 7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
+        <div class="flex justify-center gap-8">
+          <calendar-month class="[--color-accent:var(--color-moss)] [--color-text-on-accent:#fff] [&::part(day)]:size-11 [&::part(day)]:text-base [&::part(range-inner)]:bg-moss/15 [&::part(range-inner)]:text-ink [&::part(today)]:font-bold [&::part(today)]:underline"></calendar-month>
+          <calendar-month offset="1" class="hidden [--color-accent:var(--color-moss)] [--color-text-on-accent:#fff] sm:flex [&::part(day)]:size-11 [&::part(day)]:text-base [&::part(range-inner)]:bg-moss/15 [&::part(range-inner)]:text-ink [&::part(today)]:font-bold [&::part(today)]:underline"></calendar-month>
+        </div>
+      </calendar-range>
+      <div class="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4">
+        <button type="button" data-dates-clear class="px-2 font-semibold text-moss underline underline-offset-4">Clear</button>
+        <button type="button" data-dates-close class="bg-moss px-6 font-semibold text-white hover:bg-moss-dark">Done</button>
+      </div>
+    </div>
+  </dialog>
 </div>
 
 <script>
+  import 'cally';
+  import { formatStay } from '../lib/dates';
+
+  const form = document.getElementById('booking-form') as HTMLFormElement;
   const arrival = document.getElementById('arrival') as HTMLInputElement;
   const departure = document.getElementById('departure') as HTMLInputElement;
+  const dialog = document.getElementById('dates-dialog') as HTMLDialogElement;
+  const calendar = document.getElementById('dates-calendar') as HTMLElement & { value: string; min: string; months: number; focusedDate?: string; focus(): void };
+  const datesButton = document.getElementById('dates-button') as HTMLButtonElement;
+  const datesText = document.getElementById('dates-text') as HTMLElement;
+  const status = document.getElementById('dates-status') as HTMLElement;
+  const dayLabel = new Intl.DateTimeFormat('en-GB', { weekday: 'long', day: 'numeric', month: 'long' });
+
   function iso(date: Date) {
     return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   }
   arrival.min = iso(new Date());
+
+  // Native-field validation (also used when the picker fills the fields).
   function updateDates() {
     const next = new Date(`${arrival.value || arrival.min}T00:00:00`);
     next.setDate(next.getDate() + 1);
@@ -72,7 +123,6 @@ const hasSelector = selectProperty || selectPitch;
   updateDates();
 
   // Keep room/pitch links in step with the dates and guests entered above them.
-  const form = document.getElementById('booking-form') as HTMLFormElement;
   const stayLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('[data-stay-link]')).map(link => ({ link, original: link.href }));
   function updateStayLinks() {
     const values = new FormData(form);
@@ -90,4 +140,58 @@ const hasSelector = selectProperty || selectPitch;
   form.addEventListener('change', updateStayLinks);
   window.addEventListener('pageshow', updateStayLinks);
   updateStayLinks();
+
+  // Cally picker. The hidden native fields stay the submitted values.
+  form.dataset.enhanced = '';
+  arrival.required = false;
+  departure.required = false;
+  calendar.min = arrival.min;
+
+  function showDates() {
+    datesText.textContent = arrival.value && departure.value ? formatStay(arrival.value, departure.value, true) : 'Add dates';
+  }
+  function openDates() {
+    calendar.months = matchMedia('(min-width: 640px)').matches ? 2 : 1;
+    calendar.value = arrival.value && departure.value ? `${arrival.value}/${departure.value}` : '';
+    if (arrival.value) calendar.focusedDate = arrival.value;
+    status.textContent = 'Select your check-in date.';
+    dialog.showModal();
+    requestAnimationFrame(() => calendar.focus());
+  }
+  function setDates(start: string, end: string) {
+    arrival.value = start;
+    departure.value = end;
+    updateDates();
+    showDates();
+    form.dispatchEvent(new Event('change'));
+  }
+
+  datesButton.addEventListener('click', openDates);
+  dialog.querySelectorAll('[data-dates-close]').forEach(button => button.addEventListener('click', () => dialog.close()));
+  dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  dialog.querySelector('[data-dates-clear]')?.addEventListener('click', () => {
+    calendar.value = '';
+    setDates('', '');
+    status.textContent = 'Dates cleared. Select your check-in date.';
+  });
+  calendar.addEventListener('rangestart', event => {
+    status.textContent = `Check-in ${dayLabel.format((event as CustomEvent<Date>).detail)}. Now select check-out.`;
+  });
+  calendar.addEventListener('change', () => {
+    const [start, end] = calendar.value.split('/');
+    if (!start || !end) return;
+    if (start === end) {
+      calendar.value = '';
+      status.textContent = 'Check-out must be after check-in. Select your check-in date again.';
+      return;
+    }
+    setDates(start, end);
+    dialog.close();
+  });
+  form.addEventListener('submit', event => {
+    if (arrival.value && departure.value) return;
+    event.preventDefault();
+    openDates();
+  });
+  showDates();
 </script>

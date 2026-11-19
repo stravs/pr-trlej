@@ -4,6 +4,7 @@ import { bentralBookingUrl, type Building } from '../data/site';
 import { validSearch } from '../lib/availability';
 import type { UnitStay } from '../lib/unit-stay';
 import LivePrice from './LivePrice.astro';
+import { formatStay, plural } from '../lib/dates';
 interface Props { building: Building; unitId: string; name: string; stay: UnitStay }
 const { building, unitId, name, stay } = Astro.props;
 const { arrival, departure, adults, children, search, searched, available, failed, quote } = stay;
@@ -18,7 +19,7 @@ const bookingUrl = bentralBookingUrl(building) + `&unit=${encodeURIComponent(uni
   {available && <div class="mt-8">
     <h3 class="font-display text-2xl">Book {name}</h3>
     <LivePrice quote={quote} />
-    <p class="mt-3 text-sm text-muted">{arrival} → {departure} · {adults} adult(s) · {children} child(ren). Enter children and their ages again in the booking form. Final rates and stay restrictions are confirmed by Bentral.</p>
+    <p class="mt-3 text-sm text-muted">{formatStay(search.arrival, search.departure)} · {plural(Number(adults), 'adult', 'adults')}{Number(children) > 0 && ` · ${plural(Number(children), 'child', 'children')}`}. Enter children and their ages again in the booking form. Final rates and stay restrictions are confirmed by Bentral.</p>
     <iframe data-bentral-booking height="1000" scrolling="no" src={bookingUrl} title={`Book ${name}`} class="mt-6 w-full overflow-hidden border border-line" loading="lazy"></iframe>
     <a href={bookingUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-moss underline underline-offset-4">Open booking form in a new tab ↗</a>
   </div>}

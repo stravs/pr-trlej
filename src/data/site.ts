@@ -334,7 +334,7 @@ export const childrenCapacity: Record<string, number> = {
 
 export function childrenLabel(slug: string): string {
   const n = childrenCapacity[slug];
-  return n == null ? '' : n === 0 ? 'Adults only' : `Up to ${n} children`;
+  return n == null ? '' : n === 0 ? 'Adults only' : `Up to ${n} ${n === 1 ? 'child' : 'children'}`;
 }
 
 export const propertyImages = [

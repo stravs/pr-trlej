@@ -2,54 +2,98 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import { site } from '../data/site';
+
+const fieldClass = 'mt-2 w-full min-w-0 border border-line bg-white px-4 py-3 text-ink placeholder:text-muted focus:border-moss focus:outline-2 focus:outline-offset-2 focus:outline-moss';
 ---
 
-<BaseLayout title="Contact & booking" description="Contact Pr' Trlej and check availability.">
-  <PageHero eyebrow="Contact" title="Come and stay" lead="Choose the traditional house, tourist farm or camping, or write to the family for help." image="guesthouse-terrace.jpg" alt="The sunny terrace at the family guesthouse" />
+<BaseLayout title="Contact the family" description="A question about your stay at Pr’ Trlej? Write to Ana, Toni and Špela about a countryside escape, a family holiday or a few nights under the stars.">
+  <PageHero eyebrow="Contact the family" title="Every good stay starts with a hello." lead="A weekend for two, a holiday with the children, or a few quiet nights under the stars. Tell us what you have in mind — we’ll help you find your place at Pr’ Trlej." image="guesthouse-terrace.jpg" alt="The sunny terrace at the family guesthouse" />
 
-  <section class="mx-auto max-w-[1320px] px-5 py-16 sm:px-10 lg:px-14">
-    <div class="grid gap-10 md:grid-cols-2">
-      <div>
-        <h2 class="font-display text-4xl font-normal tracking-tight text-ink">Get in touch</h2>
-        <ul class="mt-6 space-y-4 text-ink">
-          <li>
-            <p class="text-xs uppercase tracking-wide text-muted">Phone</p>
-            <a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-lg font-semibold text-moss hover:text-moss-dark">{site.phone}</a>
-          </li>
-          <li>
-            <p class="text-xs uppercase tracking-wide text-muted">Email</p>
-            <a href={`mailto:${site.email}`} class="text-lg font-semibold text-moss hover:text-moss-dark">{site.email}</a>
-          </li>
-          <li>
-            <p class="text-xs uppercase tracking-wide text-muted">Address</p>
-            <p class="text-ink">{site.address}, {site.city}, {site.country}</p>
-          </li>
-        </ul>
-        <a
-          href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.name}, ${site.address}, ${site.city}`)}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="mt-6 inline-block text-sm font-semibold text-moss hover:text-moss-dark"
-        >
-          View on the map ↗
-        </a>
-      </div>
+  <section aria-labelledby="contact-heading" class="mx-auto grid max-w-[1320px] gap-12 px-5 py-16 sm:px-10 sm:py-20 lg:grid-cols-[0.85fr_1.15fr] lg:gap-20 lg:px-14">
+    <div>
+      <p class="eyebrow text-clay">A little local help</p>
+      <h2 id="contact-heading" class="mt-4 font-display text-4xl font-normal tracking-tight sm:text-5xl">Let’s make you feel at home.</h2>
+      <p class="mt-6 max-w-lg leading-7 text-muted">Not sure whether to choose the guesthouse, the farm or a camping pitch? Wondering about travelling with little ones, bringing your dog, or finding a favourite walking trail? Just ask.</p>
+      <p class="mt-4 max-w-lg leading-7 text-muted">Coming with a group? Whether it’s a family get-together or a few days away with friends, tell us your group size and preferred dates. We’ll help you explore the options for staying together.</p>
+      <p class="mt-4 max-w-lg leading-7 text-muted">Share a little about your plans, your dates if you know them, and anything that would make your stay special. No need to have it all worked out.</p>
+      <p class="mt-6 font-display text-2xl text-moss">See you in the countryside,</p>
+      <p class="mt-1 text-sm text-muted">{site.hosts}</p>
 
-      <div class="rounded-none bg-moss p-8 text-cream">
-        <h2 class="font-display text-2xl font-normal tracking-tight">Booking</h2>
-        <p class="mt-3 text-cream/95">
-          House rooms, farm rooms and camping each have their own booking form.
-        </p>
-        <div class="mt-6 space-y-3">
-          <a href="/accommodation/?building=guesthouse" class="block rounded-none bg-moss px-6 py-3 text-center font-semibold text-white hover:bg-moss-dark">Book the traditional house →</a>
-          <a href="/accommodation/?building=farm" class="block rounded-none border border-cream/40 px-6 py-3 text-center font-semibold text-cream hover:bg-white/10">Book the tourist farm →</a>
-          <a href="/accommodation/?building=camping" class="block rounded-none border border-cream/40 px-6 py-3 text-center font-semibold text-cream hover:bg-white/10">Book camping →</a>
-          <a href={site.facebookUrl} target="_blank" rel="noopener noreferrer" class="block rounded-none border border-cream/40 px-6 py-3 text-center font-semibold text-cream transition-colors hover:bg-white/10">
-            Message us on Facebook ↗
-          </a>
+      <dl class="mt-10 space-y-6 border-t border-line pt-8">
+        <div>
+          <dt class="text-xs uppercase tracking-widest text-muted">Give us a call</dt>
+          <dd class="mt-1"><a href={`tel:${site.phone.replace(/\s/g, '')}`} class="text-lg font-semibold text-moss underline-offset-4 hover:underline">{site.phone}</a></dd>
         </div>
-        <p class="mt-6 text-xs text-cream/95">The farm's own website is {site.website}.</p>
+        <div>
+          <dt class="text-xs uppercase tracking-widest text-muted">Write to us</dt>
+          <dd class="mt-1"><a href={`mailto:${site.email}`} class="break-words text-lg font-semibold text-moss underline-offset-4 hover:underline">{site.email}</a></dd>
+        </div>
+        <div>
+          <dt class="text-xs uppercase tracking-widest text-muted">Find us here</dt>
+          <dd class="mt-1">{site.address}<br />{site.city}, {site.country}</dd>
+        </div>
+      </dl>
+      <div class="mt-6 flex flex-wrap gap-x-6 gap-y-3 text-sm font-semibold text-moss">
+        <a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.name}, ${site.address}, ${site.city}`)}`} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">View on the map ↗</a>
+        <a href={site.facebookUrl} target="_blank" rel="noopener noreferrer" class="underline underline-offset-4">Say hello on Facebook ↗</a>
       </div>
+    </div>
+
+    <div class="self-start border border-line bg-cream p-6 sm:p-10">
+      <p class="eyebrow text-clay">Your next countryside escape</p>
+      <h2 id="enquiry-heading" class="mt-4 font-display text-3xl tracking-tight sm:text-4xl">Tell us about your plans.</h2>
+      <p id="email-help" class="mt-4 text-sm leading-6 text-muted">Fill in a few details and we’ll prepare an email for you. Your email app will open so you can review and send it.</p>
+      <form id="contact-form" action={`mailto:${site.email}`} method="get" aria-labelledby="enquiry-heading" aria-describedby="email-help" class="mt-8 space-y-5">
+        <div class="grid gap-5 sm:grid-cols-2">
+          <div>
+            <label for="contact-name" class="text-sm font-semibold">Your name <span class="font-normal text-muted">(required)</span></label>
+            <input id="contact-name" name="name" autocomplete="name" required maxlength="100" class={fieldClass} />
+          </div>
+          <div>
+            <label for="contact-email" class="text-sm font-semibold">Your email <span class="font-normal text-muted">(required)</span></label>
+            <input id="contact-email" name="email" type="email" autocomplete="email" required maxlength="254" class={fieldClass} />
+          </div>
+        </div>
+        <div>
+          <label for="contact-stay" class="text-sm font-semibold">Where would you like to stay?</label>
+          <select id="contact-stay" name="stay" class={fieldClass}>
+            <option>Not sure yet — help me choose</option>
+            <option>Traditional guesthouse</option>
+            <option>Tourist farm</option>
+            <option>Camp Starshine</option>
+          </select>
+        </div>
+        <div>
+          <label for="contact-message" class="text-sm font-semibold">Your message <span class="font-normal text-muted">(required)</span></label>
+          <textarea id="contact-message" name="message" required rows="6" maxlength="3000" placeholder="When would you like to visit? How many adults and children are coming? If you’re a group, tell us a little about your plans. Anything you’d like to ask us?" class:list={[fieldClass, 'resize-y focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-moss']}></textarea>
+        </div>
+        <button type="submit" class="w-full bg-moss px-6 py-4 text-sm font-semibold text-cream transition-colors hover:bg-moss-dark sm:w-auto">Prepare your email ↗</button>
+        <p class="text-xs leading-6 text-muted">Nothing is sent from this website. Please send the message from your email app. This is an enquiry, not a confirmed reservation.</p>
+        <p id="contact-status" role="status" class="text-sm leading-6 text-moss"></p>
+        <noscript><p class="text-sm leading-6 text-muted">To include all your details, please email us directly at <a href={`mailto:${site.email}`} class="underline">{site.email}</a>.</p></noscript>
+      </form>
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const name = String(data.get('name') ?? '').trim();
+    const body = [
+      'Hello Ana, Toni & Špela,',
+      '',
+      String(data.get('message') ?? '').trim(),
+      '',
+      `Stay: ${data.get('stay')}`,
+      `Name: ${name}`,
+      `Email: ${data.get('email')}`,
+    ].join('\r\n');
+    const subject = `A stay at Pr’ Trlej — enquiry from ${name}`;
+    window.location.href = `${form.action}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    const status = document.querySelector('#contact-status');
+    if (status) status.textContent = 'Please send your enquiry in your email app. If it didn’t open, email us directly using the address on this page. Your details are still here to copy.';
+  });
+</script>

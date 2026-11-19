@@ -7,14 +7,14 @@ const gingham = 'bg-[linear-gradient(90deg,rgba(180,34,42,0.11)_50%,transparent_
 <BaseLayout>
 
     <section class="relative isolate overflow-x-clip">
-      <div aria-hidden="true" class:list={['pointer-events-none absolute inset-x-0 top-1/2 -z-10 h-28 -translate-y-1/2 sm:h-36 lg:h-44', gingham]}></div>
-      <div class="mx-auto grid max-w-[1320px] items-center gap-8 px-5 py-12 sm:px-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch lg:gap-10 lg:px-14 lg:py-16">
+      <div aria-hidden="true" class:list={['pointer-events-none absolute inset-x-0 top-1/2 -z-10 hidden h-28 sm:block -translate-y-1/2 sm:h-36 lg:h-44', gingham]}></div>
+      <div class="mx-auto grid max-w-[1320px] items-center px-5 pb-12 sm:gap-8 sm:px-10 sm:py-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch lg:gap-10 lg:px-14 lg:py-16">
       <div class="relative min-w-0 lg:self-stretch">
-        <figure class="overflow-hidden rounded-lg border-8 border-white outline-[0.5px] outline-black/20 sm:border-[10px] lg:absolute lg:inset-0">
-          <Photo src="/images/guesthouse-summer.jpg" alt="Flower-filled wooden balconies and the guesthouse surrounded by summer greenery" loading="eager" class="aspect-[6/5] w-full object-cover lg:h-full lg:aspect-auto" sizes="(min-width: 1320px) 622px, (min-width: 1024px) calc((100vw - 152px) * 0.55 - 20px), (min-width: 640px) calc(100vw - 100px), calc(100vw - 56px)" />
+        <figure class="-mx-5 overflow-hidden sm:mx-0 sm:rounded-lg sm:border-[10px] sm:border-white sm:outline-[0.5px] sm:outline-black/20 lg:absolute lg:inset-0">
+          <Photo src="/images/guesthouse-summer.jpg" alt="Flower-filled wooden balconies and the guesthouse surrounded by summer greenery" loading="eager" class="aspect-[4/3] w-full object-cover sm:aspect-[6/5] lg:h-full lg:aspect-auto" sizes="(min-width: 1320px) 622px, (min-width: 1024px) calc((100vw - 152px) * 0.55 - 20px), (min-width: 640px) calc(100vw - 100px), 100vw" />
         </figure>
       </div>
-      <div class="relative rounded-lg bg-white px-6 py-8 outline-[0.5px] outline-black/20 sm:px-8 sm:py-10 lg:px-9 lg:py-11">
+      <div class="relative bg-white pt-7 sm:rounded-lg sm:px-8 sm:py-10 sm:outline-[0.5px] sm:outline-black/20 lg:px-9 lg:py-11">
         <p class="flex items-center gap-3 text-[14px] font-semibold uppercase tracking-[0.16em] text-clay"><span aria-hidden="true" class="h-px w-7 shrink-0 bg-clay/60"></span>Good food. Fresh air. A warm welcome.</p>
         <h1 class="font-display mt-5 text-[clamp(2.75rem,4.8vw,4.5rem)] leading-[1.06] tracking-[-0.045em]">A little farm.<br />A big <span class="italic text-[#b4222a]">welcome.</span></h1>
         <p class="mt-6 max-w-sm text-base leading-7 text-[#5f5043]">Come for the mountains. Stay for the homemade breakfast, the slower mornings, and the feeling of being right at home.</p>

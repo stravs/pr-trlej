@@ -6,9 +6,9 @@ const nav = [
 ];
 ---
   <div class="hidden sm:block bg-white border-b border-[#326344]/15 px-4 py-2 text-center text-[14px] font-semibold uppercase tracking-[0.08em] sm:text-xs">A family farm under Dobrča &nbsp; · &nbsp; Begunje, Slovenia</div>
-  <header class="relative z-20 bg-white">
-    <div class="mx-auto flex max-w-[1320px] items-center justify-between gap-6 px-5 py-5 sm:px-10 lg:px-14">
-    <a href="/" aria-label="Pr’ Trlej home" class="text-[#43382e]"><span class="font-display block text-3xl font-bold tracking-tight sm:text-4xl">Pr’ Trlej</span><span class="mt-1 block text-[14px] uppercase tracking-[0.04em]">A Slovenian family welcome</span></a>
+  <header class="sticky top-0 z-30 border-b border-line bg-white xl:static xl:border-b-0">
+    <div class="mx-auto flex max-w-[1320px] items-center justify-between gap-6 px-5 py-3 sm:px-10 sm:py-5 lg:px-14">
+    <a href="/" aria-label="Pr’ Trlej home" class="text-[#43382e]"><span class="font-display block text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">Pr’ Trlej</span><span class="mt-1 hidden text-[14px] uppercase tracking-[0.04em] sm:block">A Slovenian family welcome</span></a>
     <nav aria-label="Main" class="hidden items-center gap-7 text-sm xl:flex">
       {nav.map(item => <details data-dropdown class="group relative">
         <summary class="flex cursor-pointer list-none items-center gap-2 py-4 hover:text-[#326344] [&::-webkit-details-marker]:hidden">{item.label}<span aria-hidden="true" class="text-xs transition-transform group-open:rotate-180">⌄</span></summary>
@@ -18,11 +18,19 @@ const nav = [
     </nav>
     <div class="flex items-center gap-4">
       <a href="/accommodation/" class="hidden bg-[#326344] px-5 py-3 text-sm font-semibold text-[#fff9ef] hover:bg-[#244c33] sm:block">Find your stay ↗</a>
-      <details data-mobile-menu class="relative xl:hidden"><summary class="cursor-pointer py-3 text-sm font-semibold">Menu</summary>
-        <nav aria-label="Mobile" class="absolute right-0 top-full max-h-[75dvh] w-[min(21rem,calc(100vw-2.5rem))] overflow-y-auto border border-[#d9ccba] bg-white p-4 shadow-xl">
-          {nav.map(item => <details data-dropdown class="border-b border-[#d9ccba]"><summary class="cursor-pointer py-4 text-sm font-semibold">{item.label}</summary><div class="pb-3">{item.links.map(link => <a class="block px-3 py-3 text-sm leading-7 hover:bg-sand" href={link.href}>{link.label}</a>)}</div></details>)}
-          <a class="block py-4 text-sm" href="/contact/">Contact the family ↗</a>
-          <a class="mt-2 block bg-[#326344] p-3 text-center text-sm text-[#fff9ef] sm:hidden" href="/accommodation/">Find your stay ↗</a>
+      <details data-mobile-menu class="group/menu xl:hidden">
+        <summary class="-mr-3 flex cursor-pointer list-none items-center gap-2 px-3 text-sm font-semibold [&::-webkit-details-marker]:hidden">
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="size-6 fill-none stroke-current stroke-2 group-open/menu:hidden"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" /></svg>
+          <svg aria-hidden="true" viewBox="0 0 24 24" class="hidden size-6 fill-none stroke-current stroke-2 group-open/menu:block"><path d="M6 6l12 12M18 6 6 18" stroke-linecap="round" /></svg>
+          <span class="group-open/menu:hidden">Menu</span><span class="hidden group-open/menu:inline">Close</span>
+        </summary>
+        <nav aria-label="Mobile" class="absolute inset-x-0 top-full h-[calc(100dvh-100%)] overflow-y-auto overscroll-contain border-t border-line bg-white px-5 pb-10 pt-2 sm:px-10">
+          {nav.map(item => <div class="border-b border-line py-4">
+            <p class="eyebrow text-clay">{item.label}</p>
+            <ul class="mt-1">{item.links.map(link => <li><a class="block py-3 text-base" href={link.href}>{link.label}</a></li>)}</ul>
+          </div>)}
+          <a class="block border-b border-line py-5 text-base font-semibold" href="/contact/">Contact the family ↗</a>
+          <a class="mt-6 block bg-[#326344] p-4 text-center font-semibold text-[#fff9ef]" href="/accommodation/">Find your stay ↗</a>
         </nav>
       </details>
     </div>
@@ -37,6 +45,8 @@ const closeMenus = () => { menus.forEach(menu => menu.open = false); if (mobile)
 menus.forEach(menu => menu.addEventListener('toggle', () => {
   if (menu.open) menus.forEach(other => { if (other !== menu) other.open = false; });
 }));
+// Full-screen mobile menu: stop the page behind it from scrolling.
+mobile?.addEventListener('toggle', () => document.documentElement.classList.toggle('overflow-hidden', mobile.open));
 document.addEventListener('click', event => {
   if (!(event.target instanceof Element)) return;
   if (!header?.contains(event.target) || event.target.closest('a')) closeMenus();

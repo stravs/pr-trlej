@@ -4,6 +4,7 @@ import LivePrice from '../../components/LivePrice.astro';
 import UnitBooking from '../../components/UnitBooking.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Photo from '../../components/Photo.astro';
+import PhotoViewer from '../../components/PhotoViewer.astro';
 import { units, priceRange, childrenLabel } from '../../data/site';
 
 export const prerender = false;
@@ -56,17 +57,18 @@ const facts = [
         </a>
         <p id="unit-selection-note" class="mt-3 text-xs text-muted">Live availability and rates in the farm's booking system.</p>
       </div>
-      <div class="self-start overflow-hidden">
+      <button type="button" data-photo-index="0" aria-label={`View ${unit.name} photos (${unit.images.length})`} class="relative -order-1 block self-start overflow-hidden lg:order-none">
         <Photo src={`/images/${unit.images[0]}`} alt={unit.name} class="aspect-[3/2] w-full object-cover" sizes="(min-width: 1320px) 584px, (min-width: 1024px) calc((100vw - 152px) / 2), (min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)" loading="eager" />
-      </div>
+        {unit.images.length > 1 && <span aria-hidden="true" class="absolute bottom-3 right-3 bg-black/65 px-3 py-1 text-sm font-semibold text-white">1 / {unit.images.length}</span>}
+      </button>
     </div>
   </section>
 
   <section class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14">
     <h2 class="font-display text-2xl font-normal tracking-tight text-ink">At a glance</h2>
-    <dl class="mt-6 grid gap-px overflow-hidden rounded-none border border-line sm:grid-cols-2 lg:grid-cols-3">
+    <dl class="mt-6 grid grid-cols-2 gap-px overflow-hidden border border-line bg-line lg:grid-cols-3">
       {facts.map((fact) => (
-        <div class="bg-sand px-5 py-4">
+        <div class="bg-sand px-4 py-3 sm:px-5 sm:py-4">
           <dt class="text-xs uppercase tracking-wide text-muted">{fact.label}</dt>
           <dd class="mt-1 font-semibold text-ink">{fact.value}</dd>
         </div>
@@ -77,19 +79,23 @@ const facts = [
   {unit.images.length > 1 && (
     <section class="mx-auto max-w-[1320px] px-5 pb-16 sm:px-10 lg:px-14">
       <h2 class="font-display text-2xl font-normal tracking-tight text-ink">Photos</h2>
-      <div class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
+      <p class="mt-1 text-sm text-muted md:hidden">Swipe to see more. Tap a photo to enlarge it.</p>
+      <div class="-mx-5 mt-6 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2 sm:-mx-10 sm:px-10 md:mx-0 md:grid md:grid-cols-3 md:overflow-visible md:px-0 md:pb-0">
         {unit.images.slice(1).map((image, index) => (
-          <Photo
-            src={`/images/${image}`}
-            alt={`${unit.name} — photo ${index + 2}`}
-            class="aspect-[3/2] w-full rounded-none object-cover"
-            sizes="(min-width: 1320px) 395px, (min-width: 1024px) calc((100vw - 136px) / 3), (min-width: 768px) calc((100vw - 104px) / 3), (min-width: 640px) calc((100vw - 92px) / 2), calc((100vw - 52px) / 2)"
-            loading="lazy"
-          />
+          <button type="button" data-photo-index={index + 1} aria-label={`Enlarge photo ${index + 2} of ${unit.images.length}`} class="w-[80%] shrink-0 snap-start scroll-ml-5 sm:w-[45%] sm:scroll-ml-10 md:w-auto">
+            <Photo
+              src={`/images/${image}`}
+              alt={`${unit.name} — photo ${index + 2}`}
+              class="aspect-[3/2] w-full object-cover"
+              sizes="(min-width: 1320px) 395px, (min-width: 1024px) calc((100vw - 136px) / 3), (min-width: 768px) calc((100vw - 104px) / 3), (min-width: 640px) 45vw, 80vw"
+              loading="lazy"
+            />
+          </button>
         ))}
       </div>
     </section>
   )}
 
+  <PhotoViewer images={unit.images} name={unit.name} />
   <UnitBooking stay={stay} building={unit.building} unitId={unit.bentral.unit} name={unit.name} />
 </BaseLayout>

@@ -1,0 +1,48 @@
+---
+// Full-screen swipeable photo viewer. Open it with any button carrying data-photo-index.
+import Photo from './Photo.astro';
+interface Props { images: string[]; name: string }
+const { images, name } = Astro.props;
+---
+<dialog id="photo-viewer" aria-label={`${name} photos`} class="m-0 h-dvh max-h-none w-full max-w-none bg-black text-white backdrop:bg-black">
+  <div data-viewer-track class="flex h-full snap-x snap-mandatory overflow-x-auto overscroll-contain [scrollbar-width:none]"></div>
+  <!-- Full-size photos are inserted on first open, so the page does not download them up front. -->
+  <template data-viewer-photos>
+    {images.map((image, index) => (
+      <figure class="flex h-full w-full shrink-0 snap-center items-center justify-center">
+        <Photo src={`/images/${image}`} alt={`${name} — photo ${index + 1} of ${images.length}`} class="max-h-full w-full object-contain" sizes="100vw" />
+      </figure>
+    ))}
+  </template>
+  <p data-viewer-count aria-live="polite" class="fixed left-4 top-4 bg-black/60 px-3 py-2 text-sm">1 / {images.length}</p>
+  <button type="button" data-viewer-close class="fixed right-2 top-2 flex size-12 items-center justify-center bg-black/60 text-3xl leading-none"><span aria-hidden="true">×</span><span class="sr-only">Close photos</span></button>
+  <button type="button" data-viewer-step="-1" class="fixed left-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center bg-black/60 text-2xl sm:flex"><span aria-hidden="true">‹</span><span class="sr-only">Previous photo</span></button>
+  <button type="button" data-viewer-step="1" class="fixed right-2 top-1/2 hidden size-12 -translate-y-1/2 items-center justify-center bg-black/60 text-2xl sm:flex"><span aria-hidden="true">›</span><span class="sr-only">Next photo</span></button>
+</dialog>
+
+<script>
+  const viewer = document.getElementById('photo-viewer') as HTMLDialogElement | null;
+  const track = viewer?.querySelector<HTMLElement>('[data-viewer-track]');
+  const count = viewer?.querySelector<HTMLElement>('[data-viewer-count]');
+  const photos = viewer?.querySelector<HTMLTemplateElement>('[data-viewer-photos]');
+  if (viewer && track && count && photos) {
+    const total = photos.content.children.length;
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+    const show = (index: number, smooth = true) => {
+      const target = Math.max(0, Math.min(total - 1, index));
+      track.scrollTo({ left: target * track.clientWidth, behavior: smooth ? 'smooth' : 'instant' });
+    };
+    document.querySelectorAll<HTMLElement>('[data-photo-index]').forEach(button => button.addEventListener('click', () => {
+      if (!track.children.length) track.append(photos.content.cloneNode(true));
+      viewer.showModal();
+      show(Number(button.dataset.photoIndex), false);
+    }));
+    track.addEventListener('scroll', () => { count.textContent = `${current() + 1} / ${total}`; }, { passive: true });
+    viewer.querySelector('[data-viewer-close]')?.addEventListener('click', () => viewer.close());
+    viewer.querySelectorAll<HTMLElement>('[data-viewer-step]').forEach(button => button.addEventListener('click', () => show(current() + Number(button.dataset.viewerStep))));
+    viewer.addEventListener('keydown', event => {
+      if (event.key === 'ArrowRight') show(current() + 1);
+      if (event.key === 'ArrowLeft') show(current() - 1);
+    });
+  }
+</script>

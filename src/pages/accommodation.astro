@@ -7,6 +7,7 @@ import UnitGrid from '../components/UnitGrid.astro';
 import { stays } from '../data/stays';
 import Photo from '../components/Photo.astro';
 import BookingBar from '../components/BookingBar.astro';
+import { formatStay, plural } from '../lib/dates';
 import { buildings, units, campingPitches, bentralBookingUrl, type Building } from '../data/site';
 
 export const prerender = false;
@@ -34,6 +35,13 @@ const results = searched && searchValid ? await Promise.all(searchBuildings.map(
 })) : [];
 const query = new URLSearchParams({ arrival: arrival ?? '', departure: departure ?? '', adults, children }).toString();
 const matchCount = results.reduce((count, result) => count + result.matches.length, 0);
+// Same compact phone layout as UnitGrid cards.
+const pitchGrid = 'grid gap-5 sm:grid-cols-2 sm:gap-10 lg:grid-cols-3';
+const pitchCard = 'group grid grid-cols-[7.5rem_minmax(0,1fr)] items-start gap-4 border-b border-line bg-white pb-5 sm:block sm:pb-0';
+const pitchPhoto = 'aspect-[4/5] w-full object-cover sm:aspect-[3/2]';
+const pitchSizes = '(min-width: 1024px) calc((100vw - 192px) / 3), (min-width: 640px) calc((100vw - 120px) / 2), 120px';
+const propertyName = (property: Building) => stays.find(stay => stay.building === property)?.name;
+const jumpLinks = searched ? results.filter(result => result.matches.length > 0).map(result => ({ property: result.property, count: result.matches.length })) : searchBuildings.map(property => ({ property, count: property === 'camping' ? campingPitches.length : units.filter(unit => unit.building === property).length }));
 ---
 <BaseLayout title="Accommodation & booking" description="Choose and book the traditional house, tourist farm rooms or Camp Starshine camping at Pr’ Trlej near Bled.">
   <section data-accommodation-hero class="border-b border-line bg-white [--booking-half:220px] sm:[--booking-half:190px] xl:[--booking-half:90px]">
@@ -55,16 +63,18 @@ const matchCount = results.reduce((count, result) => count + result.matches.leng
   {searched && <section id="booking" class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14" aria-label="Availability results" aria-live="polite">
     <h2 class="font-display text-3xl tracking-tight">Available units</h2>
     {!searchValid ? <p class="mt-4">Enter valid dates, a check-out after check-in, and valid guest counts.</p> : <>
-      <p class="mt-3 text-sm text-muted">{search.arrival} → {search.departure} · {search.adults} adult(s) · {search.children} child(ren). Calendar matches; final rates, stay restrictions and children’s ages are confirmed by Bentral.</p>
+      <p class="mt-3 font-semibold">{formatStay(search.arrival, search.departure)} · {plural(search.adults, 'adult', 'adults')}{search.children > 0 && ` · ${plural(search.children, 'child', 'children')}`} · {plural(matchCount, 'unit', 'units')} available</p>
+      <p class="mt-2 max-w-2xl text-xs leading-relaxed text-muted">Nightly rate is accommodation only. Total includes quoted mandatory charges. Optional extras and payment fees may apply. Final rates, stay restrictions and children’s ages are confirmed by Bentral.</p>
+      {jumpLinks.length > 1 && <nav aria-label="Jump to property" class="mt-6 flex flex-wrap gap-2">{jumpLinks.map(link => <a href={`#units-${link.property}`} class="flex min-h-11 items-center border border-line px-4 text-sm font-semibold text-moss hover:bg-sand">{propertyName(link.property)} ({link.count})</a>)}</nav>}
       {matchCount === 0 && results.every(result => !result.failed) && <p class="mt-6">No units match these dates and guests. Try different dates or contact us for a stay across multiple units.</p>}
       {results.map(({ property, matches, quotes, failed }) => <section data-property={property} aria-labelledby={`units-${property}`} class="mt-12 border-t border-line pt-8">
-        <h3 id={`units-${property}`} class="font-display mb-6 text-3xl">{stays.find(stay => stay.building === property)?.name}</h3>
+        <h3 id={`units-${property}`} class="font-display mb-6 text-3xl">{propertyName(property)}</h3>
         {failed ? <p>Availability could not be checked. Please try again or <a href="/contact/" class="text-moss underline">contact us</a>.</p> : matches.length === 0 ? <p class="text-muted">No matching units.</p> : <>
-          {property !== 'camping' && <UnitGrid units={units.filter(unit => unit.building === property && matches.some(match => match.id === unit.bentral.unit))} query={query} quotes={quotes} />}
-          {property === 'camping' && <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-            {campingPitches.filter(pitch => matches.some(match => match.id === pitch.unit)).map(pitch => <a href={`/camping/${pitch.slug}/?${query}`} class="group border-b border-line bg-white">
-              <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class="aspect-[3/2] w-full object-cover" />
-              <div class="py-6"><h4 class="font-display text-2xl">{pitch.name}</h4><LivePrice quote={quotes[pitch.unit] ?? null} /><p class="mt-3 font-semibold text-moss">View pitch →</p></div>
+          {property !== 'camping' && <UnitGrid units={units.filter(unit => unit.building === property && matches.some(match => match.id === unit.bentral.unit))} query={query} quotes={quotes} showBuilding={false} />}
+          {property === 'camping' && <div class={pitchGrid}>
+            {campingPitches.filter(pitch => matches.some(match => match.id === pitch.unit)).map(pitch => <a href={`/camping/${pitch.slug}/?${query}`} class={pitchCard}>
+              <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class={pitchPhoto} sizes={pitchSizes} />
+              <div class="min-w-0 sm:py-6"><h4 class="font-display text-xl sm:text-2xl">{pitch.name}</h4><LivePrice quote={quotes[pitch.unit] ?? null} note={false} /><p class="mt-3 text-sm font-semibold text-moss">View pitch →</p></div>
             </a>)}
           </div>}
         </>}
@@ -74,12 +84,13 @@ const matchCount = results.reduce((count, result) => count + result.matches.leng
   {!searched && <section class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14">
     <h2 class="font-display mb-6 text-3xl">Our units</h2>
     <p class="mb-6 text-muted">Select dates and guests to check availability.</p>
+    <nav aria-label="Jump to property" class="flex flex-wrap gap-2">{jumpLinks.map(link => <a href={`#units-${link.property}`} class="flex min-h-11 items-center border border-line px-4 text-sm font-semibold text-moss hover:bg-sand">{propertyName(link.property)} ({link.count})</a>)}</nav>
     {searchBuildings.map(property => <section data-property={property} aria-labelledby={`units-${property}`} class="mt-12 border-t border-line pt-8">
-      <h3 id={`units-${property}`} class="font-display mb-6 text-3xl">{stays.find(stay => stay.building === property)?.name}</h3>
-      {property !== 'camping' ? <UnitGrid units={units.filter(unit => unit.building === property)} showBuilding={false} /> : <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
-        {campingPitches.map(pitch => <a href={`/camping/${pitch.slug}/`} class="border-b border-line bg-white">
-          <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class="aspect-[3/2] w-full object-cover" />
-          <div class="py-6"><h4 class="font-display text-2xl">{pitch.name}</h4><p class="mt-3 font-semibold text-moss">View pitch →</p></div>
+      <h3 id={`units-${property}`} class="font-display mb-6 text-3xl">{propertyName(property)}</h3>
+      {property !== 'camping' ? <UnitGrid units={units.filter(unit => unit.building === property)} showBuilding={false} /> : <div class={pitchGrid}>
+        {campingPitches.map(pitch => <a href={`/camping/${pitch.slug}/`} class={pitchCard}>
+          <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class={pitchPhoto} sizes={pitchSizes} />
+          <div class="min-w-0 sm:py-6"><h4 class="font-display text-xl sm:text-2xl">{pitch.name}</h4><p class="mt-3 text-sm font-semibold text-moss">View pitch →</p></div>
         </a>)}
       </div>}
     </section>)}
