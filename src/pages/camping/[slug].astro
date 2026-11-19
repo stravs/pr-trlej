@@ -12,7 +12,7 @@ const stay = await loadUnitStay('camping', pitch.unit, Astro.url.searchParams);
 ---
 <BaseLayout title={pitch.name} description={`${pitch.name} at Camp Starshine near Bled. Check dates and availability.`}>
   <section class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14">
-    <a href="/camping/" class="font-semibold text-moss">← Camp Starshine</a>
+    <a href="/camping/" class="font-semibold text-brick">← Camp Starshine</a>
     <h1 class="font-display mb-6 mt-6 text-5xl">{pitch.name}</h1>
     <Photo src={pitch.slug === 'tent' ? '/images/camp-sunset.jpg' : '/images/camp-valley.jpg'} alt={pitch.name} class="aspect-[2/1] w-full object-cover" sizes="(min-width: 1320px) 1208px, (min-width: 1024px) calc(100vw - 112px), (min-width: 640px) calc(100vw - 80px), calc(100vw - 40px)" loading="eager" />
     <p class="mt-6 text-muted">{pitch.slug === 'tent' ? 'A place for your tent, with shared bathroom facilities.' : 'A pitch for a campervan or tent. Confirm vehicle access and pitch facilities with the family.'}</p>

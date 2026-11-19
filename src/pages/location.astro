@@ -22,7 +22,7 @@ import { site, distances } from '../data/site';
           href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${site.name}, ${site.address}, ${site.city}, ${site.country}`)}`}
           target="_blank"
           rel="noopener noreferrer"
-          class="mt-6 inline-block rounded-none bg-moss px-6 py-3 font-semibold text-cream transition-colors hover:bg-moss-dark"
+          class="mt-6 inline-block rounded-none bg-brick px-6 py-3 font-semibold text-cream transition-colors hover:bg-brick-dark"
         >
           Open in Google Maps ↗
         </a>
@@ -40,7 +40,7 @@ import { site, distances } from '../data/site';
         {distances.map((row) => (
           <div class="bg-white px-5 py-4">
             <dt class="text-sm text-ink">{row.place}</dt>
-            <dd class="mt-1 font-display text-2xl font-normal tracking-tight text-moss">{row.km}</dd>
+            <dd class="mt-1 font-display text-2xl font-normal tracking-tight text-brick">{row.km}</dd>
           </div>
         ))}
       </dl>

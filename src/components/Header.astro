@@ -5,19 +5,18 @@ const nav = [
  {label:'Around here', links:[{href:'/activities/',label:'Outdoors & exploring'},{href:'/motorcycles/',label:'For motorcycle riders'},{href:'/location/',label:'Location & arrival'}]},
 ];
 ---
-  <div class="hidden sm:block bg-white border-b border-[#326344]/15 px-4 py-2 text-center text-[14px] font-semibold uppercase tracking-[0.08em] sm:text-xs">A family farm under Dobrča &nbsp; · &nbsp; Begunje, Slovenia</div>
-  <header class="sticky top-0 z-30 border-b border-line bg-white xl:static xl:border-b-0">
+  <header class="sticky top-0 z-30 border-b border-line bg-white xl:relative xl:border-b-0">
     <div class="mx-auto flex max-w-[1320px] items-center justify-between gap-6 px-5 py-3 sm:px-10 sm:py-5 lg:px-14">
     <a href="/" aria-label="Pr’ Trlej home" class="text-[#43382e]"><span class="font-display block text-[28px] font-bold leading-tight tracking-tight sm:text-4xl">Pr’ Trlej</span><span class="mt-1 hidden text-[14px] uppercase tracking-[0.04em] sm:block">A Slovenian family welcome</span></a>
     <nav aria-label="Main" class="hidden items-center gap-7 text-sm xl:flex">
       {nav.map(item => <details data-dropdown class="group relative">
-        <summary class="flex cursor-pointer list-none items-center gap-2 py-4 hover:text-[#326344] [&::-webkit-details-marker]:hidden">{item.label}<span aria-hidden="true" class="text-xs transition-transform group-open:rotate-180">⌄</span></summary>
+        <summary class="flex cursor-pointer list-none items-center gap-2 py-4 hover:text-[#8b302d] [&::-webkit-details-marker]:hidden">{item.label}<span aria-hidden="true" class="text-xs transition-transform group-open:rotate-180">⌄</span></summary>
         <div class="absolute left-1/2 top-full w-80 -translate-x-1/2 border border-[#d9ccba] bg-white p-3 shadow-xl">{item.links.map(link => <a href={link.href} class="block px-4 py-4 leading-7 hover:bg-sand focus-visible:bg-sand">{link.label}</a>)}</div>
       </details>)}
       <a href="/contact/" class="py-4 hover:underline">Contact</a>
     </nav>
     <div class="flex items-center gap-4">
-      <a href="/accommodation/" class="hidden bg-[#326344] px-5 py-3 text-sm font-semibold text-[#fff9ef] hover:bg-[#244c33] sm:block">Find your stay ↗</a>
+      <a href="/accommodation/" class="hidden bg-[#8b302d] px-5 py-3 text-sm font-semibold text-[#fff9ef] hover:bg-[#672421] sm:block">Find your stay ↗</a>
       <details data-mobile-menu class="group/menu xl:hidden">
         <summary class="-mr-3 flex cursor-pointer list-none items-center gap-2 px-3 text-sm font-semibold [&::-webkit-details-marker]:hidden">
           <svg aria-hidden="true" viewBox="0 0 24 24" class="size-6 fill-none stroke-current stroke-2 group-open/menu:hidden"><path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round" /></svg>
@@ -30,7 +29,7 @@ const nav = [
             <ul class="mt-1">{item.links.map(link => <li><a class="block py-3 text-base" href={link.href}>{link.label}</a></li>)}</ul>
           </div>)}
           <a class="block border-b border-line py-5 text-base font-semibold" href="/contact/">Contact the family ↗</a>
-          <a class="mt-6 block bg-[#326344] p-4 text-center font-semibold text-[#fff9ef]" href="/accommodation/">Find your stay ↗</a>
+          <a class="mt-6 block bg-[#8b302d] p-4 text-center font-semibold text-[#fff9ef]" href="/accommodation/">Find your stay ↗</a>
         </nav>
       </details>
     </div>

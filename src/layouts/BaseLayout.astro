@@ -23,9 +23,11 @@ const meta = description ?? 'Three ways to stay at Pr’ Trlej near Bled: the tr
     <meta name="generator" content={Astro.generator} />
     <meta name="robots" content="noindex, nofollow" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- Marks JavaScript as on before first paint, so enhanced controls show without a flash. -->
+    <script is:inline>document.documentElement.classList.add('js')</script>
   </head>
   <body class="font-body bg-white text-base leading-relaxed text-ink [&_:is(button,input,select,summary)]:min-h-12 [&_:is(a,button,input,select,summary):focus-visible]:outline-2 [&_:is(a,button,input,select,summary):focus-visible]:outline-offset-4 [&_:is(a,button,input,select,summary):focus-visible]:outline-current motion-reduce:[&_*]:!scroll-auto motion-reduce:[&_*]:!transition-none motion-reduce:[&_*]:!transform-none">
-    <a href="#main" class="fixed left-4 top-4 z-[100] -translate-y-32 rounded-xl bg-white px-5 py-3 font-semibold text-moss focus:translate-y-0">Skip to content</a>
+    <a href="#main" class="fixed left-4 top-4 z-[100] -translate-y-32 rounded-xl bg-white px-5 py-3 font-semibold text-brick focus:translate-y-0">Skip to content</a>
     <Header />
     <main id="main" tabindex="-1" class="scroll-mt-24">
       <slot />

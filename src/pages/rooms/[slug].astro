@@ -27,7 +27,7 @@ const facts = [
 
 <BaseLayout title={unit.name} description={unit.description}>
   <section class="mx-auto max-w-[1320px] px-5 py-10 sm:px-10 lg:px-14">
-    <a href={unit.building === 'farm' ? '/tourist-farm/' : '/traditional-house/'} class="text-sm font-semibold text-moss hover:text-moss-dark">← {unit.building === 'farm' ? 'Tourist farm rooms' : 'Traditional house units'}</a>
+    <a href={unit.building === 'farm' ? '/tourist-farm/' : '/traditional-house/'} class="text-sm font-semibold text-brick hover:text-brick-dark">← {unit.building === 'farm' ? 'Tourist farm rooms' : 'Traditional house units'}</a>
   </section>
 
   <section class="mx-auto max-w-[1320px] px-5 sm:px-10 lg:px-14">
@@ -36,14 +36,14 @@ const facts = [
         <p class="eyebrow text-clay">{unit.group === 'apartments' ? 'Apartment' : unit.group === 'suites' ? 'Suite' : 'Room'}</p>
         <h1 class="font-display mt-5 text-5xl font-normal leading-[1.06] tracking-[-0.04em] text-ink lg:text-6xl">{unit.name}</h1>
         <div class="mt-4 flex flex-wrap gap-2">
-          <span class:list={['rounded-none px-3 py-1 text-sm font-semibold', unit.bathroom === 'Shared' ? 'bg-clay/15 text-clay-dark' : 'bg-moss/10 text-moss']}>
+          <span class:list={['rounded-none px-3 py-1 text-sm font-semibold', unit.bathroom === 'Shared' ? 'bg-clay/15 text-clay-dark' : 'bg-brick/10 text-brick']}>
             {unit.bathroom} bathroom
           </span>
           {unit.outdoor && <span class="rounded-none bg-sand px-3 py-1 text-sm font-semibold text-ink">{unit.outdoor}</span>}
         </div>
         <p class="mt-6 text-lg text-ink/90">{unit.description}</p>
         {stay.searched ? <LivePrice quote={stay.quote} available={stay.available} /> : <>
-          <p class="mt-5 text-2xl font-normal tracking-tight text-moss">{priceRange(unit.slug)}</p>
+          <p class="mt-5 text-2xl font-normal tracking-tight text-brick">{priceRange(unit.slug)}</p>
           <p class="mt-1 text-xs text-muted">Select dates and guests for live prices.</p>
         </>}
         <a
@@ -51,7 +51,7 @@ const facts = [
           data-building={unit.building}
           data-slug={unit.slug}
           href="#booking"
-          class="mt-8 inline-block rounded-none bg-moss px-6 py-3 font-semibold text-white transition-colors hover:bg-moss-dark"
+          class="mt-8 inline-block rounded-none bg-brick px-6 py-3 font-semibold text-white transition-colors hover:bg-brick-dark"
         >
           Check dates & book →
         </a>

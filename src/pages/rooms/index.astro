@@ -6,11 +6,11 @@ import { units } from '../../data/site';
 ---
 <BaseLayout title="All rooms & apartments" description="Compare traditional house units with private bathrooms and tourist farm rooms with shared bathrooms.">
   <PageHero eyebrow="Accommodation" title="Rooms, apartments & suites" image="DSC1465-HDR.jpg" alt="Timber bedroom with red gingham curtains" lead="Choose between the traditional house with private bathrooms and tourist farm rooms with shared bathrooms." />
-  <section class="mx-auto max-w-[1320px] px-5 pt-10 sm:px-10 lg:px-14"><a href="/accommodation/" class="font-semibold text-moss">← All accommodation, including camping</a></section>
+  <section class="mx-auto max-w-[1320px] px-5 pt-10 sm:px-10 lg:px-14"><a href="/accommodation/" class="font-semibold text-brick">← All accommodation, including camping</a></section>
   {[{ id: 'guesthouse', name: 'Traditional house', href: '/traditional-house/' }, { id: 'farm', name: 'Tourist farm', href: '/tourist-farm/' }].map(group => (
     <section class="mx-auto max-w-[1320px] px-5 py-12 sm:px-10 lg:px-14">
       <h2 class="font-display text-4xl font-normal tracking-tight">{group.name}</h2>
-      <a href={group.href} class="mb-6 mt-3 inline-block font-semibold text-moss">Explore & check dates →</a>
+      <a href={group.href} class="mb-6 mt-3 inline-block font-semibold text-brick">Explore & check dates →</a>
       <UnitGrid units={units.filter(unit => unit.building === group.id)} />
     </section>
   ))}

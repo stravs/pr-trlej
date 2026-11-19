@@ -17,18 +17,18 @@ const { action = '/accommodation/#booking', building, selectProperty = false, se
 const hasSelector = selectProperty || selectPitch;
 const datesText = (arrivalValue && departureValue && formatStay(arrivalValue, departureValue, true)) || 'Add dates';
 ---
-<div id="booking-bar" class="border border-cream/15 bg-moss p-5 sm:p-6">
-  <form action={action} method="get" id="booking-form" class:list={['group grid grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-4', hasSelector ? 'sm:grid-cols-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)_minmax(0,0.6fr)_auto] xl:items-end' : 'lg:grid-cols-[minmax(0,2fr)_minmax(0,0.6fr)_auto] lg:items-end']}>
+<div id="booking-bar" class="border-gingham p-4 sm:p-6">
+  <form action={action} method="get" id="booking-form" class:list={['group grid grid-cols-[minmax(4.5rem,1fr)_auto] gap-4', hasSelector ? 'sm:grid-cols-4 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,2fr)_minmax(0,0.6fr)_auto] xl:items-end' : 'lg:grid-cols-[minmax(0,2fr)_minmax(0,0.6fr)_auto] lg:items-end']}>
     {selectProperty ? <label class="col-span-2 min-w-0 xl:col-span-1">
-      <span id="property-label" class="mb-2 block text-xs font-semibold text-cream">Property</span>
-      <select id="property" name="building" aria-labelledby="property-label" class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink">
+      <span id="property-label" class="mb-2 block text-xs font-semibold text-ink">Property</span>
+      <select id="property" name="building" aria-labelledby="property-label" class="min-h-12 w-full min-w-0 border border-line bg-white px-3 py-2.5 text-ink">
         <option value="" selected={!building}>All properties</option>
         {stays.map(stay => <option value={stay.building} selected={stay.building === building}>{stay.name}</option>)}
       </select>
     </label> : <input type="hidden" name="building" value={building} />}
     {selectPitch && <label class="col-span-2 min-w-0 xl:col-span-1">
-      <span id="pitch-label" class="mb-2 block text-xs font-semibold text-cream">Pitch type</span>
-      <select name="pitch" aria-labelledby="pitch-label" class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink">
+      <span id="pitch-label" class="mb-2 block text-xs font-semibold text-ink">Pitch type</span>
+      <select name="pitch" aria-labelledby="pitch-label" class="min-h-12 w-full min-w-0 border border-line bg-white px-3 py-2.5 text-ink">
         <option value="" selected={!pitch}>Any pitch</option>
         {campingPitches.map(option => <option value={option.slug} selected={option.slug === pitch}>{option.name}</option>)}
       </select>
@@ -36,35 +36,35 @@ const datesText = (arrivalValue && departureValue && formatStay(arrivalValue, de
     {unit && <input type="hidden" name="unit" value={unit} />}
     {pitch && !selectPitch && <input type="hidden" name="pitch" value={pitch} />}
     <div class:list={['col-span-2 min-w-0', hasSelector ? 'xl:col-span-1' : 'lg:col-span-1']}>
-      <!-- Native date fields: the no-JavaScript fallback. Hidden once the Cally picker is ready. -->
-      <div class="grid gap-4 sm:grid-cols-2 group-data-[enhanced]:hidden">
+      <!-- Native date fields: the no-JavaScript fallback. Hidden from first paint when JavaScript is on. -->
+      <div class="grid gap-4 sm:grid-cols-2 in-[.js]:hidden">
         <label class="min-w-0">
-          <span class="mb-2 block text-xs font-semibold text-cream">Check-in</span>
-          <input id="arrival" type="date" name="arrival" value={arrivalValue ?? undefined} class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
+          <span class="mb-2 block text-xs font-semibold text-ink">Check-in</span>
+          <input id="arrival" type="date" name="arrival" value={arrivalValue ?? undefined} class="min-h-12 w-full min-w-0 border border-line bg-white px-3 py-2.5 text-ink" required />
         </label>
         <label class="min-w-0">
-          <span class="mb-2 block text-xs font-semibold text-cream">Check-out</span>
-          <input id="departure" type="date" name="departure" value={departureValue ?? undefined} class="min-h-12 w-full min-w-0 border border-cream/20 bg-white px-3 py-2.5 text-ink" required />
+          <span class="mb-2 block text-xs font-semibold text-ink">Check-out</span>
+          <input id="departure" type="date" name="departure" value={departureValue ?? undefined} class="min-h-12 w-full min-w-0 border border-line bg-white px-3 py-2.5 text-ink" required />
         </label>
       </div>
-      <div class="hidden group-data-[enhanced]:block">
-        <span id="dates-label" class="mb-2 block text-xs font-semibold text-cream">Check-in – check-out</span>
-        <button type="button" id="dates-button" aria-haspopup="dialog" aria-labelledby="dates-label dates-text" class="flex min-h-12 w-full items-center justify-between gap-3 border border-cream/20 bg-white px-3 py-2 text-left text-ink">
+      <div class="hidden in-[.js]:block">
+        <span id="dates-label" class="mb-2 block text-xs font-semibold text-ink">Check-in – check-out</span>
+        <button type="button" id="dates-button" aria-haspopup="dialog" aria-labelledby="dates-label dates-text" class="flex min-h-12 w-full items-center justify-between gap-3 border border-line bg-white px-3 py-2 text-left text-ink">
           <span id="dates-text" class="truncate">{datesText}</span>
           <svg aria-hidden="true" viewBox="0 0 24 24" class="size-5 shrink-0 fill-none stroke-current stroke-[1.5]"><rect x="3.5" y="5" width="17" height="15.5" rx="1" /><path d="M3.5 9.5h17M8 3v4M16 3v4" stroke-linecap="round" /></svg>
         </button>
       </div>
     </div>
     <label class:list={['min-w-0', hasSelector && 'sm:col-span-2 xl:col-span-1']}>
-      <span class="mb-2 block text-xs font-semibold text-cream">Adults</span>
-      <select name="adults" class="min-h-12 w-full bg-white px-3 py-2.5 text-ink">
+      <span class="mb-2 block text-xs font-semibold text-ink">Adults</span>
+      <select name="adults" class="min-h-12 w-full border border-line bg-white px-3 py-2.5 text-ink">
         {Array.from({ length: 7 }, (_, i) => i + 1).map((n) => <option value={n} selected={String(n) === adults}>{n}</option>)}
       </select>
     </label>
-    <button type="submit" class:list={['min-h-12 self-end bg-white px-3 py-3 font-semibold text-moss transition-colors hover:bg-sand sm:px-6', hasSelector && 'sm:col-span-2 xl:col-span-1']}>Check dates →</button>
+    <button type="submit" class:list={['min-h-12 self-end bg-brick px-3 py-3 font-semibold text-white transition-colors hover:bg-brick-dark sm:px-6', hasSelector && 'sm:col-span-2 xl:col-span-1']}>Check dates →</button>
   </form>
-  <p class="mt-4 text-xs leading-relaxed text-cream/95">Final availability and prices are confirmed in the booking form. Children and their ages are entered there. Groups of 8+ — <a href="/contact/" class="underline underline-offset-4">contact us</a>.</p>
-  <noscript><p class="mt-2 text-xs text-cream">Choose a check-out date after check-in. Dates are confirmed in the booking system.</p></noscript>
+  <p class="mt-4 text-xs leading-relaxed text-muted">Final availability and prices are confirmed in the booking form. Children and their ages are entered there. Groups of 8+ — <a href="/contact/" class="text-brick underline underline-offset-4">contact us</a>.</p>
+  <noscript><p class="mt-2 text-xs text-muted">Choose a check-out date after check-in. Dates are confirmed in the booking system.</p></noscript>
 
   <dialog id="dates-dialog" aria-labelledby="dates-dialog-title" class="mx-0 mt-auto mb-0 w-full max-w-none bg-white text-ink backdrop:bg-ink/60 sm:m-auto sm:w-fit sm:max-w-[calc(100%-2rem)]">
     <div class="p-5 sm:p-7">
@@ -79,13 +79,13 @@ const datesText = (arrivalValue && departureValue && formatStay(arrivalValue, de
         <svg aria-label="Previous month" slot="previous" viewBox="0 0 24 24" class="size-5 fill-none stroke-current stroke-2"><path d="M15.75 19.5 8.25 12l7.5-7.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
         <svg aria-label="Next month" slot="next" viewBox="0 0 24 24" class="size-5 fill-none stroke-current stroke-2"><path d="m8.25 4.5 7.5 7.5-7.5 7.5" stroke-linecap="round" stroke-linejoin="round" /></svg>
         <div class="flex justify-center gap-8">
-          <calendar-month class="[--color-accent:var(--color-moss)] [--color-text-on-accent:#fff] [&::part(day)]:size-11 [&::part(day)]:text-base [&::part(range-inner)]:bg-moss/15 [&::part(range-inner)]:text-ink [&::part(today)]:font-bold [&::part(today)]:underline"></calendar-month>
-          <calendar-month offset="1" class="hidden [--color-accent:var(--color-moss)] [--color-text-on-accent:#fff] sm:flex [&::part(day)]:size-11 [&::part(day)]:text-base [&::part(range-inner)]:bg-moss/15 [&::part(range-inner)]:text-ink [&::part(today)]:font-bold [&::part(today)]:underline"></calendar-month>
+          <calendar-month class="[--color-accent:var(--color-brick)] [--color-text-on-accent:#fff] [&::part(day)]:size-11 [&::part(day)]:text-base [&::part(range-inner)]:bg-brick/15 [&::part(range-inner)]:text-ink [&::part(today)]:font-bold [&::part(today)]:underline"></calendar-month>
+          <calendar-month offset="1" class="hidden [--color-accent:var(--color-brick)] [--color-text-on-accent:#fff] sm:flex [&::part(day)]:size-11 [&::part(day)]:text-base [&::part(range-inner)]:bg-brick/15 [&::part(range-inner)]:text-ink [&::part(today)]:font-bold [&::part(today)]:underline"></calendar-month>
         </div>
       </calendar-range>
       <div class="mt-5 flex items-center justify-between gap-4 border-t border-line pt-4">
-        <button type="button" data-dates-clear class="px-2 font-semibold text-moss underline underline-offset-4">Clear</button>
-        <button type="button" data-dates-close class="bg-moss px-6 font-semibold text-white hover:bg-moss-dark">Done</button>
+        <button type="button" data-dates-clear class="px-2 font-semibold text-brick underline underline-offset-4">Clear</button>
+        <button type="button" data-dates-close class="bg-brick px-6 font-semibold text-white hover:bg-brick-dark">Done</button>
       </div>
     </div>
   </dialog>
@@ -142,7 +142,6 @@ const datesText = (arrivalValue && departureValue && formatStay(arrivalValue, de
   updateStayLinks();
 
   // Cally picker. The hidden native fields stay the submitted values.
-  form.dataset.enhanced = '';
   arrival.required = false;
   departure.required = false;
   calendar.min = arrival.min;

@@ -14,14 +14,14 @@ const bookingUrl = bentralBookingUrl(building) + `&unit=${encodeURIComponent(uni
   <h2 class="font-display mb-6 text-3xl">Check dates for {name}</h2>
   <BookingBar building={building} action={`${Astro.url.pathname}#booking`} arrival={arrival} departure={departure} adults={adults} />
   {searched && !validSearch(search) && <p class="mt-5">Enter valid dates and guest counts. Check-out must be after check-in.</p>}
-  {failed && <p class="mt-5">Availability could not be checked. Please try again or <a href="/contact/" class="text-moss underline">contact us</a>.</p>}
-  {searched && validSearch(search) && !failed && !available && <p class="mt-5">This unit is unavailable for the selected dates and guests. <a href={`/accommodation/?${new URLSearchParams({ arrival: search.arrival, departure: search.departure, adults, children })}#booking`} class="text-moss underline">See available units →</a></p>}
+  {failed && <p class="mt-5">Availability could not be checked. Please try again or <a href="/contact/" class="text-brick underline">contact us</a>.</p>}
+  {searched && validSearch(search) && !failed && !available && <p class="mt-5">This unit is unavailable for the selected dates and guests. <a href={`/accommodation/?${new URLSearchParams({ arrival: search.arrival, departure: search.departure, adults, children })}#booking`} class="text-brick underline">See available units →</a></p>}
   {available && <div class="mt-8">
     <h3 class="font-display text-2xl">Book {name}</h3>
     <LivePrice quote={quote} />
     <p class="mt-3 text-sm text-muted">{formatStay(search.arrival, search.departure)} · {plural(Number(adults), 'adult', 'adults')}{Number(children) > 0 && ` · ${plural(Number(children), 'child', 'children')}`}. Enter children and their ages again in the booking form. Final rates and stay restrictions are confirmed by Bentral.</p>
     <iframe data-bentral-booking height="1000" scrolling="no" src={bookingUrl} title={`Book ${name}`} class="mt-6 w-full overflow-hidden border border-line" loading="lazy"></iframe>
-    <a href={bookingUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-moss underline underline-offset-4">Open booking form in a new tab ↗</a>
+    <a href={bookingUrl} target="_blank" rel="noopener noreferrer" class="mt-4 inline-block font-semibold text-brick underline underline-offset-4">Open booking form in a new tab ↗</a>
   </div>}
 </section>
 

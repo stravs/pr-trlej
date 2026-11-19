@@ -5,7 +5,7 @@ const { quote, available = true, note = true } = Astro.props;
 ---
 <div data-live-price class="mt-4">
   {quote ? <>
-    <p class="text-xl font-semibold text-moss">{money(quote.nightly)} <span class="text-sm font-normal">/ night</span></p>
+    <p class="text-xl font-semibold text-brick">{money(quote.nightly)} <span class="text-sm font-normal">/ night</span></p>
     <p class="mt-1 font-semibold text-clay-dark">{money(quote.total)} total <span class="text-sm font-normal">· {quote.nights} {quote.nights === 1 ? 'night' : 'nights'}</span></p>
     {note && <p class="mt-2 text-xs leading-relaxed text-muted">Nightly rate is accommodation only. Total includes quoted mandatory charges. Optional extras and payment fees may apply.</p>}
   </> : <p class="text-sm text-muted">{available ? 'Live price unavailable. Confirm the price in the booking form.' : 'No price available for this selection.'}</p>}
